@@ -17,7 +17,8 @@ setopt COMPLETE_IN_WORD
 
 ## set PATH
 PATH=$PATH:/sbin:/var/lib/gems/1.8/bin
-PATH=$PATH:~/work/misc/chalow:~/work/misc/apps/appengine-java-sdk-1.2.5/bin
+APPS=~/work/misc/apps
+PATH=$PATH:$APPS/bin:~/work/misc/chalow:$APPS/appengine-java-sdk-1.2.5/bin:$APPS/google_appengine
 export PATH
 
 ## JMF

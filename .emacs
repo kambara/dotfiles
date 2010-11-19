@@ -11,19 +11,12 @@
 (set-default-coding-systems 'utf-8)
 (setq file-name-coding-system 'utf-8)
 
-
-;; add to load-path
+;; Add to load-path
 (setq load-path
       (append
        (list
-	(expand-file-name "~/svn/mysvn/dotfiles/.elisp/")
-        (expand-file-name "~/svn/mysvn/dotfiles/.elisp/iiimecf/"))
+	(expand-file-name "~/.elisp/"))
        load-path))
-
-
-;; To do NOT show the message "The local variables list in .emacs"
-(add-to-list 'ignored-local-variables 'syntax)
-
 
 ;; General Settings
 (setq inhibit-startup-message t) ;; No init message
@@ -33,22 +26,22 @@
 (set-input-mode nil nil t)       ;; Alt as Meta key
 (tool-bar-mode nil)              ;; Tool bar
 (menu-bar-mode nil)              ;; Menu bar
-;(scroll-bar-mode nil)           ;; No Scroll bar
+(scroll-bar-mode nil)           ;; No Scroll bar
 (set-scroll-bar-mode 'right)     ;; Right Scroll bar
 (setq-default indent-tabs-mode nil)
 (setq ring-bell-function 'ignore) ;; No beep and flash
 (setq initial-scratch-message "")
 
+;; Do NOT show the message: "The local variables list in .emacs"
+(add-to-list 'ignored-local-variables 'syntax)
 
-;; sync clibboard between Emacs and Gnome
+;; Sync clibboard between Emacs and Gnome
 (cond (window-system
        (setq x-select-enable-clipboard t)))
-
 
 ;; Open URL by Middle click
 (setq browse-url-browser-function 'browse-url-firefox)
 (global-set-key [mouse-2] 'browse-url-at-mouse)
-
 
 ;; Backup
 (setq make-backup-files t)
@@ -61,7 +54,6 @@
 (setq kept-old-versions 5)
 (setq delete-old-versions t)
 
-
 ;; color-theme
 (cond (window-system
        (require 'color-theme)
@@ -69,38 +61,58 @@
        (color-theme-charcoal-black)
        ))
 
-
-;; color-moccur
-;; <http://www.bookshelf.jp/soft/meadow_50.html#SEC733>
-;;   or install emacs-goodies package
+;; color-moccur:
+;; - http://www.bookshelf.jp/soft/meadow_50.html#SEC733
+;;   or
+;; - $ apt-get install emacs-goodies package
 (require 'color-moccur)
-
 
 ;; migemo
 (load "migemo")
 
+;; pos-tip.el
+;; - http://www.emacswiki.org/emacs-en/PosTip
+(require 'pos-tip)
 
-;; Auto save buffers
-;; <http://0xcc.net/misc/auto-save/>
+;; auto save buffers:
+;; - http://0xcc.net/misc/auto-save/
 (require 'auto-save-buffers)
 (run-with-idle-timer 2 t 'auto-save-buffers)
 
+;; auto-complete:
+;; - http://www.emacswiki.org/emacs/AutoComplete
+;; - http://dev.ariel-networks.com/Members/matsuyama/auto-complete>
+(add-to-list 'load-path "~/.elisp/auto-complete")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.elisp/auto-complete/ac-dict")
+(ac-config-default)
 
-;; auto-complete
-;; <http://www.emacswiki.org/emacs/AutoComplete>
-;; <http://dev.ariel-networks.com/Members/matsuyama/auto-complete>
-(require 'auto-complete)
-(global-auto-complete-mode t)
+;; RSense:
+;; - http://cx4a.org/software/rsense/index.ja.html
+(setq rsense-home "/home/kambara/work/misc/apps/rsense-0.2")
+(add-to-list 'load-path (concat rsense-home "/etc"))
+(require 'rsense)
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (add-to-list 'ac-sources 'ac-source-rsense-method)
+            (add-to-list 'ac-sources 'ac-source-rsense-constant)))
 
+;; ruby-mode
+(setq auto-mode-alist
+      (append '(("\\.rb$" . ruby-mode)
+		("\\.ru$" . ruby-mode))
+              auto-mode-alist))
+
+;; Haml-mode
+(require 'haml-mode)
 
 ;; wdired
 (require 'wdired)
 (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 
-
-;; Changelog memo
-;;   require clmemo.el
-;;   <http://pop-club.hp.infoseek.co.jp/emacs/clmemo.html>
+;; Changelog memo:
+;; - require clmemo.el
+;; - http://pop-club.hp.infoseek.co.jp/emacs/clmemo.html
 (setq user-full-name "Keisuke Kambara")
 (setq user-mail-address "kambara@sappari.org")
 (autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
@@ -113,7 +125,6 @@
             auto-mode-alist))
 (global-set-key "\C-xM" 'clmemo)
 
-
 ;; challow
 (setq exec-path
       (cons "/home/kambara/work/misc/chalow" exec-path))
@@ -121,61 +132,45 @@
         (concat "/home/kambara/work/misc/chalow:"
                 (getenv "PATH")))
 
-;; (define-key mode-specific-map "\C-c"
-;;   '(lambda ()
-;;      (shell-command-to-string
-;;       "/bin/sh /home/kambara/work/misc/chalow/cl-check.sh")))
-
-
-;; shell-command
+;; shell-command completion
 (require 'shell-command)
 (shell-command-completion-mode)
-(define-key mode-specific-map "\C-z" 'shell-command)
-
-
-;; Kahua
-(require 'kahua)
-(setq auto-mode-alist
-      (append '(("\\.kahua$" . kahua-mode)) auto-mode-alist))
-
 
 ;; Switch buffer [C-tab]
-;; <http://ftp2.de.freebsd.org/pub/emacs/emacs-lisp/incoming/pc-bufsw.el>
+;; - http://ftp2.de.freebsd.org/pub/emacs/emacs-lisp/incoming/pc-bufsw.el
 (require 'pc-bufsw)
 (pc-bufsw::bind-keys (quote [C-tab]) (quote [C-S-tab]))
-
 
 ;; javascript-mode
 (autoload 'javascript-mode "javascript" nil t)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
 
-
-;; PSGML
+;; PSGML mode (SGML and XML)
 (setq auto-mode-alist
       (append '(("\\.html$" . xml-mode)
 		("\\.shtml$" . xml-mode)
                 ("\\.xhtml$" . xml-mode)
                 ("\\.rdf$" . xml-mode)
                 ("\\.xul$" . xml-mode)
+                ("\\.erb$" . xml-mode)
 		) auto-mode-alist))
 
+;; PHP mode
+(add-hook 'php-mode-user-hook
+          '(lambda ()
+             (setq c-basic-offset 8)
+             (setq c-tab-width 8)
+             (setq c-indent-level 8)
+             (setq tab-width 8)
+             (setq indent-tabs-mode t)
+             (setq-default tab-width 8)))
 
-;; .rhtml open as html-mode
-;(setq auto-mode-alist (cons '("\\.rhtml$" . html-mode) auto-mode-alist))
-
-
-;; simple-hatena-mode
-(require 'simple-hatena-mode)
-(setq simple-hatena-bin "~/.hatena/hw.pl")
-;(setq simple-hatena-default-id "kambara")
-
-
-;; racc-mode
-(autoload 'racc-mode "racc-mode" "alternate mode for editing racc files" t)
-(setq auto-mode-alist (append '(("\\.ry$" . racc-mode)) auto-mode-alist))
-
+;; Darkroom
+(require 'darkroom)
+(global-set-key [f11] 'darkroom-mode)
 
 ;; ATOK X3
+(add-to-list 'load-path "~/.elisp/iiimecf/")
 (setq iiimcf-server-control-hostlist (list (concat "/tmp/.iiim-" (user-login-name) "/:0.0")))
 (when (and (= 0 (shell-command
                  (concat
@@ -210,23 +205,22 @@
                                   (inactivate-input-method)))
   )
 
-
 ;; Key map
 (define-key global-map "\C-h" 'delete-backward-char)
 (define-key global-map "\C-x\C-h" 'help-command)
 (define-key global-map "\M-g" 'goto-line)
 (define-key global-map "\M-o" 'moccur-grep)
 
-
-;; font for emacs23
+;; Font for emacs23
 (cond (window-system
 ;       (set-default-font "Bitstream Vera Sans Mono-11")
-       (set-default-font "DejaVu Sans Mono-16")
+       (set-default-font "DejaVu Sans Mono-15")
+;       (set-default-font "Takao明朝-16")
        (set-fontset-font (frame-parameter nil 'font)
-			 'japanese-jisx0208
-			 '("Meiryo" . "unicode-bmp"))
-       ))
-
+                         'japanese-jisx0208
+;                         '("Takao明朝" . "unicode-bmp")
+                         '("Meiryo" . "unicode-bmp")
+                         )))
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.

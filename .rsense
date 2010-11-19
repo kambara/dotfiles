@@ -1,0 +1,3 @@
+home = /home/kambara/work/misc/apps/rsense-0.2
+load-path = /usr/lib/ruby/gems/1.8/gems/bundler-0.8.1/bin:/usr/lib/ruby/gems/1.8/gems/bundler-0.8.1/lib:/usr/local/lib/site_ruby/1.8:/usr/local/lib/site_ruby/1.8/i486-linux:/usr/local/lib/site_ruby/1.8/i386-linux:/usr/local/lib/site_ruby:/usr/lib/ruby/vendor_ruby/1.8:/usr/lib/ruby/vendor_ruby/1.8/i486-linux:/usr/lib/ruby/vendor_ruby:/usr/lib/ruby/1.8:/usr/lib/ruby/1.8/i486-linux:/usr/lib/ruby/1.8/i386-linux:.
+gem-path = /home/kambara/.gem/ruby/1.8:/usr/lib/ruby/gems/1.8
