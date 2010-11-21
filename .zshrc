@@ -1,86 +1,48 @@
-#
-# .zshrc is sourced in interactive shells.
-# It should contain commands to set up aliases,
-# functions, options, key bindings, etc.
-#
+######################################
+# Zsh Settings
+######################################
 
-autoload -U compinit
-compinit
-
-#allow tab completion in the middle of a word
-setopt COMPLETE_IN_WORD
-
-## keep background processes at full speed
-#setopt NOBGNICE
-## restart running processes on exit
-#setopt HUP
-
-## set PATH
-PATH=$PATH:/sbin:/var/lib/gems/1.8/bin
-APPS=~/work/misc/apps
-PATH=$PATH:$APPS/bin:~/work/misc/chalow:$APPS/appengine-java-sdk-1.2.5/bin:$APPS/google_appengine
-export PATH
-
-## JMF
-export JMFHOME=/home/kambara/app/lib/JMF-2.1.1e
-export CLASSPATH=.:$JMFHOME/lib/jmf.jar:${CLASSPATH}
-export LD_LIBRARY_PATH=$JMFHOME/lib:${LD_LIBRARY_PATH}
-
-## JOGL
-export JOGL_HOME=/home/kambara/app/lib/jogl-1.1.1-linux-i586
-export CLASSPATH=$JOGL_HOME/lib/jogl.jar:$JOGL_HOME/lib/gluegen-rt.jar:${CLASSPATH}
-export LD_LIBRARY_PATH=$JOGL_HOME/lib:${LD_LIBRARY_PATH}
-
-## Java3D
-export J3D_HOME=/home/kambara/app/lib/j3d-1_5_2
-export CLASSPATH=$J3D_HOME/lib/ext/j3dcore.jar:$J3D_HOME/lib/ext/j3dutils.jar:$J3D_HOME/lib/ext/vecmath.jar:${CLASSPATH}
-export LD_LIBRARY_PATH=$J3D_HOME/lib/i386:${LD_LIBRARY_PATH}
-
-## history
-#setopt APPEND_HISTORY
-## for sharing history between zsh processes
-#setopt INC_APPEND_HISTORY
-#setopt SHARE_HISTORY
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt hist_ignore_all_dups hist_savenodups
-
-## never ever beep ever
-setopt NO_BEEP
-
-## automatically decide when to page a list of completions
-#LISTMAX=0
-
-## disable mail checking
-MAILCHECK=0
-
-## For AdobeReader9 Japanese Font Bug
-## https://forums.ubuntulinux.jp/viewtopic.php?id=5509&p=1
-export ACRO_DISABLE_FONT_CONFIG=1
-
-## Coloring
-autoload -U colors
-colors
-
-## prompt
+## Prompt
 setopt prompt_subst
 setopt transient_rprompt
 PROMPT=$'%{$fg[black]$bg[green]%}[@%m]%{${reset_color}%} %(!.#.$) '
 RPROMPT='[%~]'
 
+## Coloring
+autoload -U colors
+colors
+
+## Auto Completion
+autoload -U compinit
+compinit
+
+## Allow tab completion in the middle of a word
+setopt COMPLETE_IN_WORD
+
 ## completion
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*:default' menu select=1
 
-## pager
-export LESS='-R'
-export LV='-c'
+## History
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt hist_ignore_all_dups hist_savenodups
 
-## OpenCV
-export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig
+## Never ever beep ever
+setopt NO_BEEP
 
-## alias
+## Automatically decide when to page a list of completions
+LISTMAX=0
+
+## Disable mail checking
+MAILCHECK=0
+
+######################################
+## Aliases and Custom Commands
+######################################
+
+## aliases
 alias ls='ls --color=always'
 alias l='ls'
 alias la='ls -a'
@@ -98,17 +60,17 @@ alias rgrep="grep -r --exclude='*.svn-*' --exclude='entries'"
 alias firefox-default="firefox -P default --no-remote"
 alias firefox-dev="firefox -P dev --no-remote"
 
+## find by filename
 function findname() {
     find ./ -name "*${@}*" | grep -v '.svn\/'
 }
 
-# ls after ch
-function cd() { builtin cd $@ && ls; }
+## ls after ch
+function cd() {
+    builtin cd $@ && ls;
+}
 
-# cd unless command 
-# setopt auto_cd
-
-# trash
+## trash
 function rm() {
     if [ -d ~/.trash ]; then
         local DATE=`date "+%y%m%d-%H%M%S"`
@@ -125,13 +87,46 @@ function rm() {
     fi
 }
 
+######################################
+## PATH
+######################################
 
-## for keychain
-/usr/bin/keychain ~/.ssh/id_dsa
-source ~/.keychain/`hostname`-sh
+PATH=$PATH:/sbin:/var/lib/gems/1.8/bin
+APPS=~/work/misc/apps
+PATH=$PATH:$APPS/bin:~/work/misc/chalow:$APPS/appengine-java-sdk-1.2.5/bin:$APPS/google_appengine
+export PATH
 
+######################################
+# Application Settings
+######################################
 
-## for grep highlight 
+## Pager Coloring
+export LESS='-R'
+export LV='-c'
+
+## JMF
+export JMFHOME=/home/kambara/app/lib/JMF-2.1.1e
+export CLASSPATH=.:$JMFHOME/lib/jmf.jar:${CLASSPATH}
+export LD_LIBRARY_PATH=$JMFHOME/lib:${LD_LIBRARY_PATH}
+
+## JOGL
+export JOGL_HOME=/home/kambara/app/lib/jogl-1.1.1-linux-i586
+export CLASSPATH=$JOGL_HOME/lib/jogl.jar:$JOGL_HOME/lib/gluegen-rt.jar:${CLASSPATH}
+export LD_LIBRARY_PATH=$JOGL_HOME/lib:${LD_LIBRARY_PATH}
+
+## Java3D
+export J3D_HOME=/home/kambara/app/lib/j3d-1_5_2
+export CLASSPATH=$J3D_HOME/lib/ext/j3dcore.jar:$J3D_HOME/lib/ext/j3dutils.jar:$J3D_HOME/lib/ext/vecmath.jar:${CLASSPATH}
+export LD_LIBRARY_PATH=$J3D_HOME/lib/i386:${LD_LIBRARY_PATH}
+
+## OpenCV
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig
+
+## AdobeReader9 Japanese Font Bug
+## - https://forums.ubuntulinux.jp/viewtopic.php?id=5509&p=1
+export ACRO_DISABLE_FONT_CONFIG=1
+
+## grep highlight 
 export GREP_COLOR="01;34"
 export GREP_OPTIONS=--color=auto
 
@@ -139,6 +134,10 @@ export GREP_OPTIONS=--color=auto
 if [ -e ~/.Xmodmap ]; then
     xmodmap ~/.Xmodmap
 fi
+
+## keychain
+/usr/bin/keychain ~/.ssh/id_dsa
+source ~/.keychain/`hostname`-sh
 
 ## screen
 function ssh_screen(){
@@ -153,11 +152,11 @@ function socksify_ssh_screen(){
     eval server=\${$#}
     screen -t $server socksify ssh "$@"
 }
+
 if [ x$TERM = xscreen ]; then
 	alias sssh=socksify_ssh_screen
 fi
 
-## for screen
 if [ "$TERM" = "screen" ]; then
         chpwd () { echo -n "_`dirs`\\" }
         preexec() {
