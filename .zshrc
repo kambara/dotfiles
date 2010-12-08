@@ -59,6 +59,7 @@ alias w3m='w3m -no-mouse'
 alias rgrep="grep -r --exclude='*.svn-*' --exclude='entries'"
 alias firefox-default="firefox -P default --no-remote"
 alias firefox-dev="firefox -P dev --no-remote"
+alias bukko='wget --continue --recursive --convert-links --no-parent --no-host-directories --force-directories --wait 1 -e robots=off'
 
 ## find by filename
 function findname() {
@@ -92,8 +93,12 @@ function rm() {
 ######################################
 
 PATH=$PATH:/sbin:/var/lib/gems/1.8/bin
-APPS=~/work/misc/apps
-PATH=$PATH:$APPS/bin:~/work/misc/chalow:$APPS/appengine-java-sdk-1.2.5/bin:$APPS/google_appengine
+PATH=$PATH:~/work/var/chalow
+PATH=$PATH:~/work/var/bin
+APPS=~/work/var/apps
+PATH=$PATH:$APPS/appengine-java-sdk-1.2.5/bin
+PATH=$PATH:$APPS/google_appengine
+PATH=$PATH:$APPS/android-sdk-linux_x86/tools
 export PATH
 
 ######################################
@@ -145,17 +150,20 @@ function ssh_screen(){
     screen -t $server ssh "$@"
 }
 if [ x$TERM = xscreen ]; then
-	alias ssh=ssh_screen
+    alias ssh=ssh_screen
 fi
 
 function socksify_ssh_screen(){
     eval server=\${$#}
     screen -t $server socksify ssh "$@"
 }
-
 if [ x$TERM = xscreen ]; then
-	alias sssh=socksify_ssh_screen
+    alias sssh=socksify_ssh_screen
 fi
+
+## Status Line
+## - http://wiki.fdiary.net/screen/?%A5%CD%A5%BF%C4%A2
+## - http://nijino.homelinux.net/diary/200206.shtml#200206140
 
 if [ "$TERM" = "screen" ]; then
         chpwd () { echo -n "_`dirs`\\" }

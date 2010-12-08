@@ -57,7 +57,8 @@
 ;; color-theme
 (cond (window-system
        (require 'color-theme)
-       (setq color-theme-is-global t)
+       ;(setq color-theme-is-global t)
+       (color-theme-initialize)
        (color-theme-charcoal-black)
        ))
 
@@ -89,7 +90,7 @@
 
 ;; RSense:
 ;; - http://cx4a.org/software/rsense/index.ja.html
-(setq rsense-home "/home/kambara/work/misc/apps/rsense-0.2")
+(setq rsense-home "/home/kambara/work/var/apps/rsense-0.2")
 (add-to-list 'load-path (concat rsense-home "/etc"))
 (require 'rsense)
 (add-hook 'ruby-mode-hook
@@ -116,7 +117,7 @@
 (setq user-full-name "Keisuke Kambara")
 (setq user-mail-address "kambara@sappari.org")
 (autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
-(setq clmemo-file-name "~/work/misc/memo/memo.changelog")
+(setq clmemo-file-name "~/work/var/memo/memo.changelog")
 (setq auto-mode-alist
       (cons '("\\.changelog$" . clmemo-mode)
             auto-mode-alist))
@@ -127,9 +128,9 @@
 
 ;; challow
 (setq exec-path
-      (cons "/home/kambara/work/misc/chalow" exec-path))
+      (cons "/home/kambara/work/var/chalow" exec-path))
 (setenv "PATH"
-        (concat "/home/kambara/work/misc/chalow:"
+        (concat "/home/kambara/work/var/chalow:"
                 (getenv "PATH")))
 
 ;; shell-command completion
@@ -219,7 +220,8 @@
        (set-fontset-font (frame-parameter nil 'font)
                          'japanese-jisx0208
 ;                         '("Takao明朝" . "unicode-bmp")
-                         '("Meiryo" . "unicode-bmp")
+;                         '("Meiryo" . "unicode-bmp")
+                         '("Takaoゴシック" . "unicode-bmp")
                          )))
 
 (custom-set-variables
