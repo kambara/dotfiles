@@ -1,5 +1,3 @@
-;; .emacs by kambara
-
 ;; Coding system and Language Settings
 (when (equal emacs-major-version 21) (require 'un-define))
 (set-language-environment "Japanese")
@@ -10,9 +8,6 @@
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (setq file-name-coding-system 'utf-8)
-
-;; Add to load-path
-(add-to-list 'load-path "~/.elisp")
 
 ;; General Settings
 (setq inhibit-startup-message t) ;; No init message
@@ -53,15 +48,44 @@
 (setq kept-old-versions 5)
 (setq delete-old-versions t)
 
+;;==========
+;; elisp
+;;==========
+
+;; Add to load-path
+(add-to-list 'load-path "~/.elisp")
+
 ;; auto-install
+;; <http://www.emacswiki.org/AutoInstall>
 (require 'auto-install)
-(add-to-list 'load-path "~/.emacs.d/auto-install")
 (setq auto-install-directory "~/.emacs.d/auto-install/")
 (auto-install-update-emacswiki-package-name t)
 (auto-install-compatibility-setup)
+(add-to-list 'load-path "~/.emacs.d/auto-install")
+
+;; color-moccur
+;; すべてのバッファを対象に occur を実施できる
+;; (auto-install-from-emacswiki "coloe-moccur.el")
+;; <http://www.bookshelf.jp/soft/meadow_50.html#SEC746>
+(require 'color-moccur)
+
+;; pos-tip
+;; ツールチップ表示
+;; (auto-install-from-emacswiki "pos-tip.el")
+;; <http://www.emacswiki.org/emacs-en/PosTip>
+(require 'pos-tip)
+
+;; auto-complete
+;; 自動補完をポップアップ表示
+;; (auto-install-batch "auto-complete development version")
+;; <http://www.emacswiki.org/emacs/AutoComplete>
+(add-to-list 'load-path "~/.elisp/auto-complete")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.elisp/auto-complete/ac-dict")
+(ac-config-default)
 
 ;; color-theme
-;; require emacs-goodies-el
+;; # apt-get install emacs-goodies-el
 (cond (window-system
        (require 'color-theme)
        (color-theme-initialize)
@@ -69,33 +93,16 @@
        (color-theme-charcoal-black)
        ))
 
-;; color-moccur:
-;; M-x auto-install-from-emacswiki color-moccur.el
-;; <http://www.bookshelf.jp/soft/meadow_50.html#SEC733>
-(require 'color-moccur)
-
 ;; migemo
+;; # apt-get install migemo
 (load "migemo")
 
-;; pos-tip.el
-;; M-x auto-install-emacswiki-base-url pos-tip.el
-;; <http://www.emacswiki.org/emacs-en/PosTip>
-(require 'pos-tip)
-
-;; auto save buffers:
+;; auto-save-buffers
 ;; <http://0xcc.net/misc/auto-save/>
 (require 'auto-save-buffers)
 (run-with-idle-timer 2 t 'auto-save-buffers)
 
-;; auto-complete
-;; <http://www.emacswiki.org/emacs/AutoComplete>
-;; <http://dev.ariel-networks.com/Members/matsuyama/auto-complete>
-(add-to-list 'load-path "~/.elisp/auto-complete")
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.elisp/auto-complete/ac-dict")
-(ac-config-default)
-
-;; RSense:
+;; RSense
 ;; <http://cx4a.org/software/rsense/index.ja.html>
 (setq rsense-home "/home/kambara/work/var/apps/rsense-0.2")
 (add-to-list 'load-path (concat rsense-home "/etc"))
@@ -106,12 +113,16 @@
             (add-to-list 'ac-sources 'ac-source-rsense-constant)))
 
 ;; ruby-mode
+;; # apt-get install ruby-elisp
+;; Emacs23はデフォルトで含まれている
 (setq auto-mode-alist
       (append '(("\\.rb$" . ruby-mode)
 		("\\.ru$" . ruby-mode))
               auto-mode-alist))
 
 ;; Haml-mode
+;; (auto-install-from-url "https://github.com/nex3/haml-mode/raw/master/haml-mode.el")
+;; <https://github.com/nex3/haml-mode/blob/master/haml-mode.el>
 (require 'haml-mode)
 
 ;; wdired
@@ -151,16 +162,12 @@
 (require 'pc-bufsw)
 (pc-bufsw::bind-keys (quote [C-tab]) (quote [C-S-tab]))
 
-;; javascript-mode
-;; (autoload 'javascript-mode "javascript" nil t)
-;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
-
 ;; js2-mode
 ;; # apt-get install js2-mode
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
-;; PSGML mode (SGML and XML)
+;; PSGML mode (SGML, HTML, XML)
 (setq auto-mode-alist
       (append '(("\\.html$" . xml-mode)
 		("\\.shtml$" . xml-mode)
