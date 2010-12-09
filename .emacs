@@ -12,11 +12,7 @@
 (setq file-name-coding-system 'utf-8)
 
 ;; Add to load-path
-(setq load-path
-      (append
-       (list
-	(expand-file-name "~/.elisp/"))
-       load-path))
+(add-to-list 'load-path "~/.elisp")
 
 ;; General Settings
 (setq inhibit-startup-message t) ;; No init message
@@ -34,6 +30,9 @@
 
 ;; Do NOT show the message: "The local variables list in .emacs"
 (add-to-list 'ignored-local-variables 'syntax)
+
+;; Avoid "Symbolic link to SVN-controlled source file; follow link? (yes or no)"
+(setq vc-follow-symlinks t)
 
 ;; Sync clibboard between Emacs and Gnome
 (cond (window-system
@@ -54,42 +53,50 @@
 (setq kept-old-versions 5)
 (setq delete-old-versions t)
 
+;; auto-install
+(require 'auto-install)
+(add-to-list 'load-path "~/.emacs.d/auto-install")
+(setq auto-install-directory "~/.emacs.d/auto-install/")
+(auto-install-update-emacswiki-package-name t)
+(auto-install-compatibility-setup)
+
 ;; color-theme
+;; require emacs-goodies-el
 (cond (window-system
        (require 'color-theme)
-       ;(setq color-theme-is-global t)
        (color-theme-initialize)
+       ;(setq color-theme-is-global t)
        (color-theme-charcoal-black)
        ))
 
 ;; color-moccur:
-;; - http://www.bookshelf.jp/soft/meadow_50.html#SEC733
-;;   or
-;; - $ apt-get install emacs-goodies package
+;; M-x auto-install-from-emacswiki color-moccur.el
+;; <http://www.bookshelf.jp/soft/meadow_50.html#SEC733>
 (require 'color-moccur)
 
 ;; migemo
 (load "migemo")
 
 ;; pos-tip.el
-;; - http://www.emacswiki.org/emacs-en/PosTip
+;; M-x auto-install-emacswiki-base-url pos-tip.el
+;; <http://www.emacswiki.org/emacs-en/PosTip>
 (require 'pos-tip)
 
 ;; auto save buffers:
-;; - http://0xcc.net/misc/auto-save/
+;; <http://0xcc.net/misc/auto-save/>
 (require 'auto-save-buffers)
 (run-with-idle-timer 2 t 'auto-save-buffers)
 
-;; auto-complete:
-;; - http://www.emacswiki.org/emacs/AutoComplete
-;; - http://dev.ariel-networks.com/Members/matsuyama/auto-complete>
+;; auto-complete
+;; <http://www.emacswiki.org/emacs/AutoComplete>
+;; <http://dev.ariel-networks.com/Members/matsuyama/auto-complete>
 (add-to-list 'load-path "~/.elisp/auto-complete")
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.elisp/auto-complete/ac-dict")
 (ac-config-default)
 
 ;; RSense:
-;; - http://cx4a.org/software/rsense/index.ja.html
+;; <http://cx4a.org/software/rsense/index.ja.html>
 (setq rsense-home "/home/kambara/work/var/apps/rsense-0.2")
 (add-to-list 'load-path (concat rsense-home "/etc"))
 (require 'rsense)
@@ -111,9 +118,9 @@
 (require 'wdired)
 (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 
-;; Changelog memo:
-;; - require clmemo.el
-;; - http://pop-club.hp.infoseek.co.jp/emacs/clmemo.html
+;; Changelog memo
+;; require clmemo.el
+;; <http://pop-club.hp.infoseek.co.jp/emacs/clmemo.html>
 (setq user-full-name "Keisuke Kambara")
 (setq user-mail-address "kambara@sappari.org")
 (autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
@@ -134,17 +141,24 @@
                 (getenv "PATH")))
 
 ;; shell-command completion
+;; shell-command [M-!] で補完
 (require 'shell-command)
 (shell-command-completion-mode)
 
-;; Switch buffer [C-tab]
-;; - http://ftp2.de.freebsd.org/pub/emacs/emacs-lisp/incoming/pc-bufsw.el
+;; Switch buffer
+;; [C-tab]でバッファを切り替える
+;; <http://ftp2.de.freebsd.org/pub/emacs/emacs-lisp/incoming/pc-bufsw.el>
 (require 'pc-bufsw)
 (pc-bufsw::bind-keys (quote [C-tab]) (quote [C-S-tab]))
 
 ;; javascript-mode
-(autoload 'javascript-mode "javascript" nil t)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
+;; (autoload 'javascript-mode "javascript" nil t)
+;; (add-to-list 'auto-mode-alist '("\\.js\\'" . javascript-mode))
+
+;; js2-mode
+;; # apt-get install js2-mode
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 ;; PSGML mode (SGML and XML)
 (setq auto-mode-alist
@@ -157,6 +171,7 @@
 		) auto-mode-alist))
 
 ;; PHP mode
+;; # apt-get install php-elisp
 (add-hook 'php-mode-user-hook
           '(lambda ()
              (setq c-basic-offset 8)
@@ -166,45 +181,10 @@
              (setq indent-tabs-mode t)
              (setq-default tab-width 8)))
 
-;; Darkroom
-(require 'darkroom)
-(global-set-key [f11] 'darkroom-mode)
-
-;; ATOK X3
-(add-to-list 'load-path "~/.elisp/iiimecf/")
-(setq iiimcf-server-control-hostlist (list (concat "/tmp/.iiim-" (user-login-name) "/:0.0")))
-(when (and (= 0 (shell-command
-                 (concat
-                  "netstat --unix -l | grep -q "
-                  (car iiimcf-server-control-hostlist))))
-           (require 'iiimcf-sc nil t))
-  (setq iiimcf-server-control-default-language "ja")
-  (setq iiimcf-server-control-default-input-method "atokx3")
-  (setq default-input-method 'iiim-server-control)
-  (setq iiimcf-UI-input-method-title-format "<ATOK:%s>")
-  (setq iiimcf-UI-preedit-use-face-p "window-system")
-  (setq iiimcf-keycode-spec-alist
-        (append
-         '(
-           (11 113 65535) ; C-k = F2(113)
-           (12 114 65535) ; C-l = F3(114)
-           (9  113 65535) ; C-i = F2(113)
-           (15 114 65535) ; C-o = F3(114)
-           (7  27  65535) ; C-g = Esc
-           (16 38  65535) ; C-p = Up(38)
-           (14 28  65535) ; C-n = Down(28)
-           (2  37  65535) ; C-b = Left(37)
-           (6  39  65535) ; C-f = Right(39)
-           )
-         iiimcf-keycode-spec-alist))
-  (define-key global-map [henkan] (lambda ()
-                                  (interactive)
-                                  (if current-input-method (inactivate-input-method))
-                                  (toggle-input-method)))
-  (define-key global-map [muhenkan] (lambda ()
-                                  (interactive)
-                                  (inactivate-input-method)))
-  )
+;; scim-bridge
+;; # apt-get install scim-bridge-el
+(require 'scim-bridge)
+(add-hook 'after-init-hook 'scim-mode-on)
 
 ;; Key map
 (define-key global-map "\C-h" 'delete-backward-char)
@@ -214,14 +194,12 @@
 
 ;; Font for emacs23
 (cond (window-system
-;       (set-default-font "Bitstream Vera Sans Mono-11")
        (set-default-font "DejaVu Sans Mono-15")
-;       (set-default-font "Takao明朝-16")
+       ;(set-default-font "Bitstream Vera Sans Mono-11")
        (set-fontset-font (frame-parameter nil 'font)
                          'japanese-jisx0208
-;                         '("Takao明朝" . "unicode-bmp")
-;                         '("Meiryo" . "unicode-bmp")
                          '("Takaoゴシック" . "unicode-bmp")
+                         ;'("Meiryo" . "unicode-bmp")
                          )))
 
 (custom-set-variables
