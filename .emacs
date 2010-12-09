@@ -1,4 +1,6 @@
+;;====================
 ;; Coding system and Language Settings
+;;====================
 (when (equal emacs-major-version 21) (require 'un-define))
 (set-language-environment "Japanese")
 (set-terminal-coding-system 'utf-8)
@@ -9,18 +11,20 @@
 (set-default-coding-systems 'utf-8)
 (setq file-name-coding-system 'utf-8)
 
+;;====================
 ;; General Settings
-(setq inhibit-startup-message t) ;; No init message
-(show-paren-mode 1)              ;; highlight (~~)
-(transient-mark-mode 1)          ;; coloring selection
-(global-font-lock-mode t)        ;; coloring
-(set-input-mode nil nil t)       ;; Alt as Meta key
-(tool-bar-mode nil)              ;; Tool bar
-(menu-bar-mode nil)              ;; Menu bar
-(scroll-bar-mode nil)           ;; No Scroll bar
-(set-scroll-bar-mode 'right)     ;; Right Scroll bar
-(setq-default indent-tabs-mode nil)
+;;====================
+(setq inhibit-startup-message t)  ;; No init message
+(show-paren-mode 1)               ;; highlight (~~)
+(transient-mark-mode 1)           ;; coloring selection
+(global-font-lock-mode t)         ;; coloring
+(set-input-mode nil nil t)        ;; Alt as Meta key
+(tool-bar-mode nil)               ;; Tool bar
+(menu-bar-mode nil)               ;; Menu bar
+(scroll-bar-mode nil)             ;; No Scroll bar
+(set-scroll-bar-mode 'right)      ;; Right Scroll bar
 (setq ring-bell-function 'ignore) ;; No beep and flash
+(setq-default indent-tabs-mode nil)
 (setq initial-scratch-message "")
 
 ;; Do NOT show the message: "The local variables list in .emacs"
@@ -48,9 +52,19 @@
 (setq kept-old-versions 5)
 (setq delete-old-versions t)
 
-;;==========
-;; elisp
-;;==========
+;; Font for emacs23
+(cond (window-system
+       (set-default-font "DejaVu Sans Mono-15")
+       ;(set-default-font "Bitstream Vera Sans Mono-11")
+       (set-fontset-font (frame-parameter nil 'font)
+                         'japanese-jisx0208
+                         '("Takaoゴシック" . "unicode-bmp")
+                         ;'("Meiryo" . "unicode-bmp")
+                         )))
+
+;;====================
+;; site elisp
+;;====================
 
 ;; Add to load-path
 (add-to-list 'load-path "~/.elisp")
@@ -59,30 +73,36 @@
 ;; <http://www.emacswiki.org/AutoInstall>
 (require 'auto-install)
 (setq auto-install-directory "~/.emacs.d/auto-install/")
-(auto-install-update-emacswiki-package-name t)
+;(auto-install-update-emacswiki-package-name t)
 (auto-install-compatibility-setup)
 (add-to-list 'load-path "~/.emacs.d/auto-install")
 
 ;; color-moccur
 ;; すべてのバッファを対象に occur を実施できる
-;; (auto-install-from-emacswiki "coloe-moccur.el")
 ;; <http://www.bookshelf.jp/soft/meadow_50.html#SEC746>
+;; (auto-install-from-emacswiki "coloe-moccur.el")
 (require 'color-moccur)
 
 ;; pos-tip
 ;; ツールチップ表示
-;; (auto-install-from-emacswiki "pos-tip.el")
 ;; <http://www.emacswiki.org/emacs-en/PosTip>
+;; (auto-install-from-emacswiki "pos-tip.el")
 (require 'pos-tip)
 
 ;; auto-complete
 ;; 自動補完をポップアップ表示
-;; (auto-install-batch "auto-complete development version")
 ;; <http://www.emacswiki.org/emacs/AutoComplete>
-(add-to-list 'load-path "~/.elisp/auto-complete")
+;; (auto-install-batch "auto-complete development version")
+(require 'auto-complete)
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.elisp/auto-complete/ac-dict")
 (ac-config-default)
+;(global-auto-complete-mode t) ;; 対象の全てで補完を有効にする
+;(setq ac-auto-start t) ;; 補完が自動で起動
+
+;; auto-save-buffers
+;; <http://0xcc.net/misc/auto-save/>
+(require 'auto-save-buffers)
+(run-with-idle-timer 1 t 'auto-save-buffers)
 
 ;; color-theme
 ;; # apt-get install emacs-goodies-el
@@ -97,14 +117,76 @@
 ;; # apt-get install migemo
 (load "migemo")
 
-;; auto-save-buffers
-;; <http://0xcc.net/misc/auto-save/>
-(require 'auto-save-buffers)
-(run-with-idle-timer 2 t 'auto-save-buffers)
+;; wdired
+;; diredでファイルを一括リネーム
+;; [r]キーで編集開始
+;; Emacs22以降は標準で付属
+(require 'wdired)
+(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
+
+;; clmemo
+;; <http://dl.dropbox.com/u/288817/clmemo.el/clmemo.el.html>
+;; <http://dl.dropbox.com/u/288817/clmemo.el/clmemo-1.0rc3.tar.gz>
+;; <http://dl.dropbox.com/u/288817/clmemo.el/blgrep-0.1rc1.tar.gz>
+;; make install する
+(setq user-full-name "Keisuke Kambara")
+(setq user-mail-address "kambara@sappari.org")
+(autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
+(setq clmemo-file-name "~/work/var/memo/memo.changelog")
+(global-set-key "\C-xM" 'clmemo)
+
+;; chalow
+;; # apt-get install chalow
+(setq exec-path
+      (cons "/home/kambara/work/var/chalow" exec-path))
+(setenv "PATH"
+        (concat "/home/kambara/work/var/chalow:"
+                (getenv "PATH")))
+
+;; Easy Buffer Switch
+;; [C-tab]でバッファを切り替える
+;; <http://www.emacswiki.org/emacs/EasyBufferSwitch>
+;; (auto-install-from-emacswiki "ebs.el")
+(require 'ebs)
+(ebs-initialize)
+(global-set-key [(control tab)] 'ebs-switch-buffer)
+
+;; iswitchb
+;; [C-x b]でバッファを一覧
+;; <http://www.bookshelf.jp/soft/meadow_28.html#SEC370>
+;; 標準で付属
+(iswitchb-mode 1)
+(add-to-list 'iswitchb-buffer-ignore "*Messages*")
+(add-to-list 'iswitchb-buffer-ignore "*Buffer")
+(add-to-list 'iswitchb-buffer-ignore "*Completions")
+
+;; shell-command completion
+;; shell-command [M-!] のコマンド入力で補完が効くようにする
+;; <http://www.namazu.org/~tsuchiya/elisp/shell-command.el>
+(require 'shell-command)
+(shell-command-completion-mode)
+
+;; scim-bridge
+;; # apt-get install scim-bridge-el
+(cond (window-system
+       (require 'scim-bridge)
+       (add-hook 'after-init-hook 'scim-mode-on)))
+
+;;====================
+;; Programming Mode
+;;====================
+
+;; ruby-mode
+;; # apt-get install ruby-elisp
+;; Emacs23は標準で付属
+(setq auto-mode-alist
+      (append '(("\\.rb$" . ruby-mode)
+		("\\.ru$" . ruby-mode))
+              auto-mode-alist))
 
 ;; RSense
 ;; <http://cx4a.org/software/rsense/index.ja.html>
-(setq rsense-home "/home/kambara/work/var/apps/rsense-0.2")
+(setq rsense-home "/home/kambara/work/var/apps/rsense-0.3")
 (add-to-list 'load-path (concat rsense-home "/etc"))
 (require 'rsense)
 (add-hook 'ruby-mode-hook
@@ -112,55 +194,14 @@
             (add-to-list 'ac-sources 'ac-source-rsense-method)
             (add-to-list 'ac-sources 'ac-source-rsense-constant)))
 
-;; ruby-mode
-;; # apt-get install ruby-elisp
-;; Emacs23はデフォルトで含まれている
-(setq auto-mode-alist
-      (append '(("\\.rb$" . ruby-mode)
-		("\\.ru$" . ruby-mode))
-              auto-mode-alist))
-
-;; Haml-mode
-;; (auto-install-from-url "https://github.com/nex3/haml-mode/raw/master/haml-mode.el")
+;; haml-mode
 ;; <https://github.com/nex3/haml-mode/blob/master/haml-mode.el>
+;; (auto-install-from-url "https://github.com/nex3/haml-mode/raw/master/haml-mode.el")
 (require 'haml-mode)
 
-;; wdired
-(require 'wdired)
-(define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
-
-;; Changelog memo
-;; require clmemo.el
-;; <http://pop-club.hp.infoseek.co.jp/emacs/clmemo.html>
-(setq user-full-name "Keisuke Kambara")
-(setq user-mail-address "kambara@sappari.org")
-(autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
-(setq clmemo-file-name "~/work/var/memo/memo.changelog")
-(setq auto-mode-alist
-      (cons '("\\.changelog$" . clmemo-mode)
-            auto-mode-alist))
-(setq auto-mode-alist
-      (cons '("\\.changelog$" . change-log-mode)
-            auto-mode-alist))
-(global-set-key "\C-xM" 'clmemo)
-
-;; challow
-(setq exec-path
-      (cons "/home/kambara/work/var/chalow" exec-path))
-(setenv "PATH"
-        (concat "/home/kambara/work/var/chalow:"
-                (getenv "PATH")))
-
-;; shell-command completion
-;; shell-command [M-!] で補完
-(require 'shell-command)
-(shell-command-completion-mode)
-
-;; Switch buffer
-;; [C-tab]でバッファを切り替える
-;; <http://ftp2.de.freebsd.org/pub/emacs/emacs-lisp/incoming/pc-bufsw.el>
-(require 'pc-bufsw)
-(pc-bufsw::bind-keys (quote [C-tab]) (quote [C-S-tab]))
+;; javascript-mode (for nXhtml)
+;; <http://www.emacswiki.org/emacs/JavaScriptMode>
+(autoload 'javascript-mode "javascript" nil t)
 
 ;; js2-mode
 ;; # apt-get install js2-mode
@@ -168,14 +209,28 @@
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 ;; PSGML mode (SGML, HTML, XML)
-(setq auto-mode-alist
-      (append '(("\\.html$" . xml-mode)
-		("\\.shtml$" . xml-mode)
-                ("\\.xhtml$" . xml-mode)
-                ("\\.rdf$" . xml-mode)
-                ("\\.xul$" . xml-mode)
-                ("\\.erb$" . xml-mode)
-		) auto-mode-alist))
+;; (setq auto-mode-alist
+;;       (append '(("\\.html$" . xml-mode)
+;; 		("\\.shtml$" . xml-mode)
+;;                 ("\\.xhtml$" . xml-mode)
+;;                 ("\\.rdf$" . xml-mode)
+;;                 ("\\.xul$" . xml-mode)
+;;                 ("\\.erb$" . xml-mode)
+;; 		) auto-mode-alist))
+
+;; nXhtml
+;; <http://www.emacswiki.org/emacs/NxhtmlMode>
+;; <http://ourcomments.org/Emacs/nXhtml/doc/nxhtml.html>
+(load "~/.elisp/nxhtml/autostart.el")
+(setq mumamo-background-colors nil)
+(add-hook 'nxml-mode-hook
+          (lambda ()
+            (setq nxml-slash-auto-complete-flag t)
+            (setq nxml-child-indent 2)
+            (setq indent-tabs-mode nil)
+            (setq tab-width 2)
+            (setq nxml-bind-meta-tab-to-complete-flag t)
+            (define-key nxml-mode-map "\r" 'newline-and-indent)))
 
 ;; PHP mode
 ;; # apt-get install php-elisp
@@ -188,26 +243,13 @@
              (setq indent-tabs-mode t)
              (setq-default tab-width 8)))
 
-;; scim-bridge
-;; # apt-get install scim-bridge-el
-(require 'scim-bridge)
-(add-hook 'after-init-hook 'scim-mode-on)
-
+;;====================
 ;; Key map
+;;====================
 (define-key global-map "\C-h" 'delete-backward-char)
 (define-key global-map "\C-x\C-h" 'help-command)
 (define-key global-map "\M-g" 'goto-line)
 (define-key global-map "\M-o" 'moccur-grep)
-
-;; Font for emacs23
-(cond (window-system
-       (set-default-font "DejaVu Sans Mono-15")
-       ;(set-default-font "Bitstream Vera Sans Mono-11")
-       (set-fontset-font (frame-parameter nil 'font)
-                         'japanese-jisx0208
-                         '("Takaoゴシック" . "unicode-bmp")
-                         ;'("Meiryo" . "unicode-bmp")
-                         )))
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
