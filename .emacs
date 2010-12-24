@@ -54,7 +54,7 @@
 
 ;; Font for emacs23
 (cond (window-system
-       (set-default-font "DejaVu Sans Mono-15")
+       (set-default-font "DejaVu Sans Mono-13")
        ;(set-default-font "Bitstream Vera Sans Mono-11")
        (set-fontset-font (frame-parameter nil 'font)
                          'japanese-jisx0208
@@ -188,17 +188,10 @@
 ;        (require 'scim-bridge)
 ;        (add-hook 'after-init-hook 'scim-mode-on)))
 
-;; uim.el
-;; # apt-get install uim-el
-
-;(require 'uim)
-;(global-set-key "\C-o" 'uim-mode)
-;(setq uim-candidate-display-inline t)
-
 ;; mozc.el
 ;; # apt-get install emacs-mozc
 
-; (require 'mozc) or
+;; (require 'mozc) or (load-file "path/to/mozc.el")
 (load-file "/usr/share/emacs/site-lisp/emacs-mozc/mozc.el")
 (set-language-environment "Japanese")
 (setq default-input-method "japanese-mozc")
@@ -242,17 +235,6 @@
 
 (require 'haml-mode)
 
-;; javascript-mode (for nXhtml)
-;; <http://www.emacswiki.org/emacs/JavaScriptMode>
-
-(autoload 'javascript-mode "javascript" nil t)
-
-;; js2-mode
-;; # apt-get install js2-mode
-
-(autoload 'js2-mode "js2" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
 ;; PSGML mode (SGML, HTML, XML)
 
 ;; (setq auto-mode-alist
@@ -278,6 +260,17 @@
             (setq tab-width 2)
             (setq nxml-bind-meta-tab-to-complete-flag t)
             (define-key nxml-mode-map "\r" 'newline-and-indent)))
+
+;; javascript-mode (for nXhtml)
+;; <http://www.emacswiki.org/emacs/JavaScriptMode>
+
+(autoload 'javascript-mode "javascript" nil t)
+
+;; js2-mode
+;; # apt-get install js2-mode
+
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 ;; PHP mode
 ;; # apt-get install php-elisp
