@@ -52,6 +52,7 @@ alias less='/usr/share/vim/vimcurrent/macros/less.sh'
 alias vi='vim'
 alias v='vim -R'
 #alias rm='rm -I'
+alias sudo="sudo env PATH=$PATH"
 alias sf='socksify'
 alias -g LV='| lv'
 alias -g G='| grep'

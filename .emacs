@@ -71,9 +71,10 @@
 
 ;; auto-install
 ;; <http://www.emacswiki.org/AutoInstall>
+
 (require 'auto-install)
 (setq auto-install-directory "~/.emacs.d/auto-install/")
-(auto-install-update-emacswiki-package-name t)
+(auto-install-update-emacswiki-package-name t) ;; 更新チェック
 (auto-install-compatibility-setup)
 (add-to-list 'load-path "~/.emacs.d/auto-install")
 
@@ -81,31 +82,34 @@
 ;; すべてのバッファを対象に occur を実施できる
 ;; <http://www.bookshelf.jp/soft/meadow_50.html#SEC746>
 ;; (auto-install-from-emacswiki "coloe-moccur.el")
+
 (require 'color-moccur)
 
 ;; pos-tip
 ;; ツールチップ表示
 ;; <http://www.emacswiki.org/emacs-en/PosTip>
 ;; (auto-install-from-emacswiki "pos-tip.el")
+
 (require 'pos-tip)
 
 ;; auto-complete
 ;; 自動補完をポップアップ表示
 ;; <http://www.emacswiki.org/emacs/AutoComplete>
 ;; (auto-install-batch "auto-complete development version")
+
 (require 'auto-complete)
 (require 'auto-complete-config)
 (ac-config-default)
-;(global-auto-complete-mode t) ;; 対象の全てで補完を有効にする
-;(setq ac-auto-start t) ;; 補完が自動で起動
 
 ;; auto-save-buffers
 ;; <http://0xcc.net/misc/auto-save/>
+
 (require 'auto-save-buffers)
 (run-with-idle-timer 1 t 'auto-save-buffers)
 
 ;; color-theme
 ;; # apt-get install emacs-goodies-el
+
 (cond (window-system
        (require 'color-theme)
        (color-theme-initialize)
@@ -115,12 +119,14 @@
 
 ;; migemo
 ;; # apt-get install migemo
+
 (load "migemo")
 
 ;; wdired
 ;; diredでファイルを一括リネーム
 ;; [r]キーで編集開始
 ;; Emacs22以降は標準で付属
+
 (require 'wdired)
 (define-key dired-mode-map "r" 'wdired-change-to-wdired-mode)
 
@@ -129,6 +135,7 @@
 ;; <http://dl.dropbox.com/u/288817/clmemo.el/clmemo-1.0rc3.tar.gz>
 ;; <http://dl.dropbox.com/u/288817/clmemo.el/blgrep-0.1rc1.tar.gz>
 ;; make install する
+
 (setq user-full-name "Keisuke Kambara")
 (setq user-mail-address "kambara@sappari.org")
 (autoload 'clmemo "clmemo" "ChangeLog memo mode." t)
@@ -137,6 +144,7 @@
 
 ;; chalow
 ;; # apt-get install chalow
+
 (setq exec-path
       (cons "/home/kambara/work/var/chalow" exec-path))
 (setenv "PATH"
@@ -147,30 +155,64 @@
 ;; [C-tab]でバッファを切り替える
 ;; <http://www.emacswiki.org/emacs/EasyBufferSwitch>
 ;; (auto-install-from-emacswiki "ebs.el")
+
 (require 'ebs)
 (ebs-initialize)
 (global-set-key [(control tab)] 'ebs-switch-buffer)
+(setq ebs-exclude-buffer-regexps
+      (append '("^\\*auto-install")
+              ebs-exclude-buffer-regexps))
 
 ;; iswitchb
 ;; [C-x b]でバッファを一覧
 ;; <http://www.bookshelf.jp/soft/meadow_28.html#SEC370>
 ;; 標準で付属
+
 (iswitchb-mode 1)
 (add-to-list 'iswitchb-buffer-ignore "*Messages*")
 (add-to-list 'iswitchb-buffer-ignore "*Buffer")
 (add-to-list 'iswitchb-buffer-ignore "*Completions")
+(add-to-list 'iswitchb-buffer-ignore "*auto-install")
 
 ;; shell-command completion
 ;; shell-command [M-!] のコマンド入力で補完が効くようにする
 ;; <http://www.namazu.org/~tsuchiya/elisp/shell-command.el>
+
 (require 'shell-command)
 (shell-command-completion-mode)
 
 ;; scim-bridge
 ;; # apt-get install scim-bridge-el
-(cond (window-system
-       (require 'scim-bridge)
-       (add-hook 'after-init-hook 'scim-mode-on)))
+
+; (cond (window-system
+;        (require 'scim-bridge)
+;        (add-hook 'after-init-hook 'scim-mode-on)))
+
+;; uim.el
+;; # apt-get install uim-el
+
+;(require 'uim)
+;(global-set-key "\C-o" 'uim-mode)
+;(setq uim-candidate-display-inline t)
+
+;; mozc.el
+;; # apt-get install emacs-mozc
+
+; (require 'mozc) or
+(load-file "/usr/share/emacs/site-lisp/emacs-mozc/mozc.el")
+(set-language-environment "Japanese")
+(setq default-input-method "japanese-mozc")
+;; 変換でIME ON
+(define-key global-map [henkan]
+  (lambda ()
+    (interactive)
+    (if current-input-method (inactivate-input-method))
+    (toggle-input-method)))
+;; 無変換でIME OFF
+(define-key global-map [muhenkan]
+  (lambda ()
+    (interactive)
+    (inactivate-input-method)))
 
 ;;====================
 ;; Programming Mode
@@ -197,18 +239,22 @@
 ;; haml-mode
 ;; <https://github.com/nex3/haml-mode/blob/master/haml-mode.el>
 ;; (auto-install-from-url "https://github.com/nex3/haml-mode/raw/master/haml-mode.el")
+
 (require 'haml-mode)
 
 ;; javascript-mode (for nXhtml)
 ;; <http://www.emacswiki.org/emacs/JavaScriptMode>
+
 (autoload 'javascript-mode "javascript" nil t)
 
 ;; js2-mode
 ;; # apt-get install js2-mode
+
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 ;; PSGML mode (SGML, HTML, XML)
+
 ;; (setq auto-mode-alist
 ;;       (append '(("\\.html$" . xml-mode)
 ;; 		("\\.shtml$" . xml-mode)
@@ -221,6 +267,7 @@
 ;; nXhtml
 ;; <http://www.emacswiki.org/emacs/NxhtmlMode>
 ;; <http://ourcomments.org/Emacs/nXhtml/doc/nxhtml.html>
+
 (load "~/.elisp/nxhtml/autostart.el")
 (setq mumamo-background-colors nil)
 (add-hook 'nxml-mode-hook
@@ -234,7 +281,10 @@
 
 ;; PHP mode
 ;; # apt-get install php-elisp
-(add-hook 'php-mode-user-hook
+
+(load-library "php-mode")
+(require 'php-mode)
+(add-hook 'php-mode-hook
           '(lambda ()
              (setq c-basic-offset 8)
              (setq c-tab-width 8)
@@ -246,6 +296,7 @@
 ;;====================
 ;; Key map
 ;;====================
+
 (define-key global-map "\C-h" 'delete-backward-char)
 (define-key global-map "\C-x\C-h" 'help-command)
 (define-key global-map "\M-g" 'goto-line)
