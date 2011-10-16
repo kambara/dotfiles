@@ -135,16 +135,27 @@
 (run-with-idle-timer 1 t 'auto-save-buffers)
 
 ;;--------------------
+;; tangotango color theme
+;; <http://blog.nozav.org/post/2010/07/12/Updated-tangotango-emacs-color-theme>
+;; (auto-install-from-url "https://raw.github.com/juba/color-theme-tangotango/master/color-theme-tangotango.el")
+;;--------------------
+
+(require 'color-theme-tangotango)
+
+;;--------------------
 ;; color-theme
 ;; $ sudo apt-get install emacs-goodies-el
 ;;--------------------
 
 (cond (window-system
        (require 'color-theme)
-       (color-theme-initialize)
-       ;(setq color-theme-is-global t)
-       (color-theme-charcoal-black)
+       (color-theme-initialize) ; OR (setq color-theme-is-global t)
+       ;(color-theme-charcoal-black)
+       ;(color-theme-deep-blue)
+       (color-theme-tangotango)
        ))
+
+
 
 ;;--------------------
 ;; migemo
