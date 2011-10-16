@@ -23,6 +23,9 @@ setopt COMPLETE_IN_WORD
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*:default' menu select=1
 
+## Case insensitive
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
 ## History
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -48,9 +51,9 @@ alias l='ls'
 alias la='ls -a'
 alias ll='ls -lh'
 alias lah='ls -lah'
-alias less='/usr/share/vim/vimcurrent/macros/less.sh'
+alias v='/usr/share/vim/vimcurrent/macros/less.sh'
 alias vi='vim'
-alias v='vim -R'
+#alias v='vim -R'
 #alias rm='rm -I'
 alias sudo="sudo env PATH=$PATH"
 alias sf='socksify'
@@ -61,6 +64,7 @@ alias rgrep="grep -r --exclude='*.svn-*' --exclude='entries'"
 alias firefox-default="firefox -P default --no-remote"
 alias firefox-dev="firefox -P dev --no-remote"
 alias bukko='wget --continue --recursive --convert-links --no-parent --no-host-directories --force-directories --wait 1 -e robots=off'
+alias emacs='XMODIFIERS=@im=none emacs'
 
 ## find by filename
 function findname() {
@@ -109,6 +113,18 @@ export PATH
 ## Pager Coloring
 export LESS='-R'
 export LV='-c'
+
+## Ruby
+export RUBYOPT=-Ku
+
+## RVM
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+
+## Node.js (nave)
+NAVESH=$HOME/.nave/nave.sh
+if [ -f $NAVE ]; then
+#    $HOME/.nave/nave.sh use latest
+fi
 
 ## JMF
 export JMFHOME=/home/kambara/app/lib/JMF-2.1.1e
