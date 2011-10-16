@@ -5,7 +5,7 @@
 ## Prompt
 setopt prompt_subst
 setopt transient_rprompt
-PROMPT=$'%{$fg[black]$bg[green]%}[@%m]%{${reset_color}%} %(!.#.$) '
+PROMPT=$'%{$fg[black]$bg[green]%}%n@%m%{${reset_color}%} %(!.#.$) '
 RPROMPT='[%~]'
 
 ## Coloring
@@ -53,7 +53,6 @@ alias ll='ls -lh'
 alias lah='ls -lah'
 alias v='/usr/share/vim/vimcurrent/macros/less.sh'
 alias vi='vim'
-#alias v='vim -R'
 #alias rm='rm -I'
 alias sudo="sudo env PATH=$PATH"
 alias sf='socksify'
@@ -160,64 +159,3 @@ fi
 ## keychain
 /usr/bin/keychain ~/.ssh/id_dsa
 source ~/.keychain/`hostname`-sh
-
-## screen
-function ssh_screen(){
-    eval server=\${$#}
-    screen -t $server ssh "$@"
-}
-if [ x$TERM = xscreen ]; then
-    alias ssh=ssh_screen
-fi
-
-function socksify_ssh_screen(){
-    eval server=\${$#}
-    screen -t $server socksify ssh "$@"
-}
-if [ x$TERM = xscreen ]; then
-    alias sssh=socksify_ssh_screen
-fi
-
-## Status Line
-## - http://wiki.fdiary.net/screen/?%A5%CD%A5%BF%C4%A2
-## - http://nijino.homelinux.net/diary/200206.shtml#200206140
-
-if [ "$TERM" = "screen" ]; then
-        chpwd () { echo -n "_`dirs`\\" }
-        preexec() {
-                # see [zsh-workers:13180]
-                # http://www.zsh.org/mla/workers/2000/msg03993.html
-                emulate -L zsh
-                local -a cmd; cmd=(${(z)2})
-                case $cmd[1] in
-                        fg)
-                                if (( $#cmd == 1 )); then
-                                        cmd=(builtin jobs -l %+)
-                                else
-                                        cmd=(builtin jobs -l $cmd[2])
-                                fi
-                                ;;
-                        %*) 
-                                cmd=(builtin jobs -l $cmd[1])
-                                ;;
-                        cd)
-                                if (( $#cmd == 2)); then
-                                        cmd[1]=$cmd[2]
-                                fi
-                                ;&
-                        *)
-                                echo -n "k$cmd[1]:t\\"
-                                return
-                                ;;
-                esac
-
-                local -A jt; jt=(${(kv)jobtexts})
-
-                $cmd >>(read num rest
-                        cmd=(${(z)${(e):-\$jt$num}})
-                        echo -n "k$cmd[1]:t\\") 2>/dev/null
-        }
-        chpwd
-fi
-
-screen -xRR
