@@ -354,17 +354,16 @@
 ;;====================
 
 ;;--------------------
-;; PSGML mode (SGML, HTML, XML)
+;; XML mode (SGML, HTML, XML)
 ;;--------------------
 
-(setq auto-mode-alist
-      (append '(("\\.html$" . xml-mode)
-                ("\\.shtml$" . xml-mode)
-                ("\\.xhtml$" . xml-mode)
-                ("\\.rdf$" . xml-mode)
-                ("\\.xul$" . xml-mode)
-                ("\\.erb$" . xml-mode)
-                ) auto-mode-alist))
+;; (setq auto-mode-alist
+;;       (append '(("\\.html$" . xml-mode)
+;;                 ("\\.shtml$" . xml-mode)
+;;                 ("\\.xhtml$" . xml-mode)
+;;                 ("\\.rdf$" . xml-mode)
+;;                 ("\\.xul$" . xml-mode)
+;;                 ) auto-mode-alist))
 
 ;;--------------------
 ;; nXhtml
