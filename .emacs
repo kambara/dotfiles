@@ -155,8 +155,6 @@
        (color-theme-tangotango)
        ))
 
-
-
 ;;--------------------
 ;; migemo
 ;; $ sudo apt-get install migemo
@@ -312,6 +310,8 @@
 (setq ebs-exclude-buffer-regexps
       (append '("^\\*auto-install")
               '("^\\*howm")
+              '("^\\*SPEEDBAR\\*")
+              '("^\\*anything")
               ebs-exclude-buffer-regexps))
 
 ;;--------------------
@@ -326,6 +326,7 @@
 (add-to-list 'iswitchb-buffer-ignore "*Buffer")
 (add-to-list 'iswitchb-buffer-ignore "*Completions")
 (add-to-list 'iswitchb-buffer-ignore "*auto-install")
+(add-to-list 'iswitchb-buffer-ignore "*howm")
 (add-to-list 'iswitchb-buffer-ignore "*SPEEDBAR*")
 (add-to-list 'iswitchb-buffer-ignore "*anything")
 
