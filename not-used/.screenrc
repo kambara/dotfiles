@@ -1,0 +1,6 @@
+escape ^z^z
+vbell off
+hardstatus alwayslastline "%`%-w%{=b bw}%n %t%{-}%+w %=[%02c]"
+startup_message off
+autodetach on
+defscrollback 8000
