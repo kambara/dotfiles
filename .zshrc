@@ -75,18 +75,23 @@ function cd() {
     builtin cd $@ && ls;
 }
 
-## trash
+## move to .trash when rm
 function rm() {
-    if [ -d ~/.trash ]; then
-        local DATE=`date "+%y%m%d-%H%M%S"`
-        mkdir ~/.trash/$DATE
+    local TRASH=~/.trash
+    if ! [ -d $TRASH ]; then
+        mkdir $TRASH
+    fi
+    if [ -d $TRASH ]; then
+        local DATE=`date "+%Y-%m-%d_%H:%M:%S"`
+        mkdir $TRASH/$DATE
         for i in $@; do
            if [ -e $i ]; then
-               mv $i ~/.trash/$DATE/
+               mv $i $TRASH/$DATE/
            else 
                echo "$i : not found"
            fi
         done
+        echo "trash: $TRASH/$DATE"
     else
         /bin/rm -I $@
     fi
