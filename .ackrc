@@ -1,0 +1,11 @@
+--ignore-dir=log
+--ignore-dir=tmp
+--ignore-dir=db/*
+--ignore-dir=coverage
+
+--type-set=coffee=.coffee
+
+--type-add=css=.sass,.scss
+--type-add=html=.haml,.erb
+--type-add=ruby=.ru,.rake,Gemfile
+

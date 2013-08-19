@@ -1,4 +1,13 @@
 ######################################
+# TMUX
+######################################
+
+if which tmux 2>&1 >/dev/null; then
+    #if not inside a tmux session, and if no session is started, start a new session
+    test -z "$TMUX" && (tmux attach || tmux new-session)
+fi
+
+######################################
 # Zsh Settings
 ######################################
 
@@ -54,7 +63,7 @@ alias lah='ls -lah'
 alias v='/usr/share/vim/vimcurrent/macros/less.sh'
 alias vi='vim'
 #alias rm='rm -I'
-alias sudo="sudo env PATH=$PATH"
+#alias sudo="sudo env PATH=$PATH"
 alias sf='socksify'
 alias -g LV='| lv'
 alias -g G='| grep'
@@ -64,6 +73,10 @@ alias firefox-default="firefox -P default --no-remote"
 alias firefox-dev="firefox -P dev --no-remote"
 alias bukko='wget --continue --recursive --convert-links --no-parent --no-host-directories --force-directories --wait 1 -e robots=off'
 alias emacs='XMODIFIERS=@im=none emacs'
+alias android-connect='mtpfs -o allow_other /media/104SH'
+alias android-disconnect='fusermount -u /media/104SH'
+
+alias ssh-kambara01-dev-bitcellar='ssh -A -i ~/Dropbox/Private/pubkey/bitcellar-ec2/id_rsa kambara@kambara01.dev.bitcellar.net'
 
 ## find by filename
 function findname() {
@@ -107,7 +120,8 @@ PATH=$PATH:~/work/var/bin
 APPS=~/work/var/apps
 PATH=$PATH:$APPS/appengine-java-sdk-1.2.5/bin
 PATH=$PATH:$APPS/google_appengine
-PATH=$PATH:$APPS/android-sdk-linux_x86/tools
+PATH=$PATH:$APPS/android-sdk-linux/tools
+PATH=$PATH:$APPS/android-sdk-linux/platform-tools
 export PATH
 
 ######################################
@@ -119,16 +133,16 @@ export LESS='-R'
 export LV='-c'
 
 ## Ruby
-export RUBYOPT=-Ku
+#export RUBYOPT=-Ku
 
 ## RVM
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
 
 ## Node.js (nave)
-NAVESH=$HOME/.nave/nave.sh
-if [ -f $NAVE ]; then
-#    $HOME/.nave/nave.sh use latest
-fi
+# NAVESH=$HOME/.nave/nave.sh
+# if [ -f $NAVE ]; then
+#     $HOME/.nave/nave.sh use latest
+# fi
 
 ## JMF
 export JMFHOME=/home/kambara/app/lib/JMF-2.1.1e
@@ -164,3 +178,9 @@ fi
 ## keychain
 /usr/bin/keychain ~/.ssh/id_dsa
 source ~/.keychain/`hostname`-sh
+
+# RVM
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+# mygollum
+#$HOME/work/var/wiki/barapedia/start.sh
