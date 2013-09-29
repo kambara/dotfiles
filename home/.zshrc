@@ -2,9 +2,6 @@
 # TMUX
 ######################################
 
-# Skip all this for non-interactive shells
-[[ -z "$PS1" ]] && return
-
 if which tmux 2>&1 >/dev/null; then
     #if not inside a tmux session, and if no session is started, start a new session
     test -z "$TMUX" && (tmux attach || tmux new-session)
@@ -70,10 +67,17 @@ alias -g G='| grep'
 alias w3m='w3m -no-mouse'
 alias rgrep="grep -r --exclude='*.svn-*' --exclude='entries'"
 alias bukko='wget --continue --recursive --convert-links --no-parent --no-host-directories --force-directories --wait 1 -e robots=off'
-#alias emacs='XMODIFIERS=@im=none emacs'
-alias emacs=/Applications/Emacs.app/Contents/MacOS/Emacs
 alias android-connect='mtpfs -o allow_other /media/104SH'
 alias android-disconnect='fusermount -u /media/104SH'
+
+case ${OSTYPE} in
+    darwin*)
+        alias emacs=/Applications/Emacs.app/Contents/MacOS/Emacs
+        ;;
+    linux*)
+        alias emacs='XMODIFIERS=@im=none emacs'
+        ;;
+esac
 
 ## find by filename
 function findname() {
@@ -118,14 +122,12 @@ PATH=$PATH:/usr/local/sbin
 ## ~/work
 PATH=$PATH:~/work/var/chalow
 PATH=$PATH:~/work/var/bin
+
 APPS=~/work/var/apps
 PATH=$PATH:$APPS/appengine-java-sdk/bin
 PATH=$PATH:$APPS/google_appengine
 PATH=$PATH:$APPS/android-sdk-linux/tools
 PATH=$PATH:$APPS/android-sdk-linux/platform-tools
-
-## RVM
-# PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
 export PATH
 
@@ -145,10 +147,18 @@ export GREP_OPTIONS=--color=auto
 /usr/local/bin/keychain ~/.ssh/id_dsa
 source ~/.keychain/`hostname`-sh
 
-## RVM
-# source $HOME/.rvm/scripts/rvm
-
 ## rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+case ${OSTYPE} in
+    linux*)
+        ## AdobeReader9 Japanese Font Bug
+        ## https://forums.ubuntulinux.jp/viewtopic.php?id=5509&p=1
+        export ACRO_DISABLE_FONT_CONFIG=1
 
+        ## Xmodmap
+        if [ -e ~/.Xmodmap ]; then
+            xmodmap ~/.Xmodmap
+        fi
+        ;;
+esac
