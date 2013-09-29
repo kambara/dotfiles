@@ -144,7 +144,7 @@ export GREP_COLOR="01;34"
 export GREP_OPTIONS=--color=auto
 
 ## keychain
-/usr/local/bin/keychain ~/.ssh/id_dsa
+keychain ~/.ssh/id_dsa
 source ~/.keychain/`hostname`-sh
 
 ## rbenv
