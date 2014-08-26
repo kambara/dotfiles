@@ -148,8 +148,14 @@ keychain ~/.ssh/id_dsa
 source ~/.keychain/`hostname`-sh
 
 ## rbenv
+case ${OSTYPE} in
+    linux*)
+        export PATH=$HOME/.rbenv/bin:$PATH
+        ;;
+esac
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+## Linux Specific Settings
 case ${OSTYPE} in
     linux*)
         ## AdobeReader9 Japanese Font Bug
