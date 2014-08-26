@@ -6,18 +6,27 @@
 ;;
 ;;   $ emacs --batch -l ~/.elisp/prelude-packages.el
 ;;
+;; Package Search:
+;;
+;;   M-x list-packages
 
 (defvar prelude-packages
-  '(auto-complete
+  '(arduino-mode
+    auto-complete
     auto-install
     auto-save-buffers-enhanced
     coffee-mode
     color-moccur
     color-theme
     deft
+    dirtree
     fuzzy
     haml-mode
+    helm
+    helm-ag
+    helm-descbinds
     js2-mode
+    less-css-mode
     markdown-mode
     php-mode
     popup
@@ -26,6 +35,7 @@
     sass-mode
     slim-mode
     sr-speedbar
+    tree-mode
     color-theme-tango 
     web-mode
     yaml-mode

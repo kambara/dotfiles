@@ -86,13 +86,14 @@
 ;; Avoid recursive loading
 (require 'tramp)
 
-;; local varibales list の警告を非表示
+;; Hide "local varibales list" alert
 (custom-set-variables
  '(safe-local-variable-values (quote ((clmemo-mode . t))))
  '(simplenote-notes-mode (quote markdown-mode)))
 
-;; Increment Number
+;; Increment Number 
 ;; http://www.emacswiki.org/emacs/IncrementNumber
+;; Assign +1 to C-c a, -1 to C-c x
 
 (defun my-change-number-at-point (change)
   (let ((number (number-at-point))
@@ -114,6 +115,22 @@
 (global-set-key (kbd "C-c a") 'my-increment-number-at-point)
 (global-set-key (kbd "C-c x") 'my-decrement-number-at-point)
 
+;; Comment Code
+;; http://www.emacswiki.org/emacs/CommentingCode
+;; M-;
+
+(defun comment-dwim-line (&optional arg)
+  "Replacement for the comment-dwim command.
+        If no region is selected and current line is not blank and we are not at the end of the line,
+        then comment current line.
+        Replaces default behaviour of comment-dwim, when it inserts comment at the end of the line."
+  (interactive "*P")
+  (comment-normalize-vars)
+  (if (and (not (region-active-p)) (not (looking-at "[ \t]*$")))
+      (comment-or-uncomment-region (line-beginning-position) (line-end-position))
+    (comment-dwim arg)))
+
+(global-set-key "\M-;" 'comment-dwim-line)
 
 ;;====================
 ;; site elisp
@@ -246,6 +263,39 @@
 ;(color-theme-deep-blue)
 ;(color-theme-tangotango)
 (require 'color-theme-tango)
+
+;;--------------------
+;; Helm
+;; https://github.com/emacs-helm/helm
+;; http://d.hatena.ne.jp/a_bicky/20140104/1388822688
+;;--------------------
+
+(helm-mode 1)
+(global-set-key (kbd "C-c h") 'helm-mini)
+
+(define-key global-map (kbd "M-x")     'helm-M-x)
+(define-key global-map (kbd "C-x C-f") 'helm-find-files)
+(define-key global-map (kbd "C-x C-r") 'helm-recentf)
+(define-key global-map (kbd "M-y")     'helm-show-kill-ring)
+(define-key global-map (kbd "C-c i")   'helm-imenu)
+(define-key global-map (kbd "C-x b")   'helm-buffers-list)
+
+(define-key helm-map (kbd "C-h") 'delete-backward-char)
+(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
+(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
+(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+
+(defadvice helm-ff-kill-or-find-buffer-fname (around execute-only-if-exist activate)
+  "Execute command only if CANDIDATE exists"
+  (when (file-exists-p candidate)
+    ad-do-it))
+
+;;--------------------
+;; dirtree
+;; https://github.com/zk/emacs-dirtree
+;;--------------------
+
+(require 'dirtree)
 
 ;;--------------------
 ;; Magit
@@ -456,12 +506,25 @@
 ;;--------------------
 
 (setq auto-mode-alist
-      (append '(("\\.html$" . html-mode)
-                ("\\.shtml$" . xml-mode)
+      (append '(("\\.shtml$" . xml-mode)
                 ("\\.xhtml$" . xml-mode)
                 ("\\.rdf$" . xml-mode)
                 ("\\.xul$" . xml-mode)
                 ) auto-mode-alist))
+
+;;--------------------
+;; web-mode
+;;--------------------
+
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[gj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
 ;;--------------------
 ;; css-mode
@@ -471,6 +534,12 @@
 (setq cssm-newline-before-closing-bracket t)
 (setq cssm-indent-function #'cssm-c-style-indenter)
 (setq cssm-mirror-mode t)
+
+;;--------------------
+;; less-css-mode
+;;--------------------
+
+(require 'less-css-mode)
 
 ;;--------------------
 ;; javascript-mode

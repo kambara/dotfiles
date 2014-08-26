@@ -115,9 +115,9 @@ function rm() {
 ## PATH
 ######################################
 
-PATH=$PATH:/sbin
-PATH=$PATH:/usr/local/bin
-PATH=$PATH:/usr/local/sbin
+PATH=/sbin:$PATH
+PATH=/usr/local/bin:$PATH
+PATH=/usr/local/sbin:$PATH
 
 ## ~/work
 PATH=$PATH:~/work/var/chalow
@@ -128,6 +128,10 @@ PATH=$PATH:$APPS/appengine-java-sdk/bin
 PATH=$PATH:$APPS/google_appengine
 PATH=$PATH:$APPS/android-sdk-linux/tools
 PATH=$PATH:$APPS/android-sdk-linux/platform-tools
+
+ANDROID_SDK=/Applications/adt-bundle-mac-x86_64/sdk
+PATH=$PATH:$ANDROID_SDK/tools
+PATH=$PATH:$ANDROID_SDK/platform-tools
 
 export PATH
 

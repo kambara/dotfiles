@@ -4,7 +4,6 @@
 --ignore-dir=coverage
 
 --type-set=coffee=.coffee
-
 --type-add=css=.sass,.scss
 --type-add=html=.haml,.erb
 --type-add=ruby=.ru,.rake,Gemfile
