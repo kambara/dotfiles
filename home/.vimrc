@@ -17,47 +17,50 @@ set hlsearch
 set ignorecase
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Ruby
+" MacVim
 
-au FileType ruby :set nowrap tabstop=2 tw=0 sw=2 expandtab
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" QFixHowm
-
-set runtimepath+=~/.vim/qfixapp
-let QFixHowm_Key = 'g'
-let howm_dir             = '~/Dropbox/Private/howm-vim'
-let howm_filename        = '%Y/%m/%Y-%m-%d-%H%M%S.txt'
-let howm_fileencoding    = 'utf-8'
-let QFixHowm_FileType    = 'org'
-let QFixHowm_Title = '*'
+set guifont=Menlo:h14
+colorscheme evening
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NeoBundle
+" https://github.com/Shougo/neobundle.vim
+
+" note: skip initialization for vim-tiny or vim-small.
+if !1 | finish | endif
 
 if has('vim_starting')
   set nocompatible               " Be iMproved
+
+  " Required:
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+" Required:
+call neobundle#begin(expand('~/.vim/bundle/'))
 
 " Let NeoBundle manage NeoBundle
+" Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
-
-" Recommended to install
-" After install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f your_machines_makefile
-NeoBundle 'Shougo/vimproc'
 
 " My Bundles here:
 NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'kchmck/vim-coffee-script'
+NeoBundle 'glidenote/memolist.vim'
+NeoBundle 'vim-scripts/vim-auto-save'
 
-filetype plugin indent on     " Required!
+call neobundle#end()
+
+" Required!
+filetype plugin indent on
+
+" If there are uninstalled bundles found on startup,
+" this will conveniently prompt you to install them.
 NeoBundleCheck
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " neocomplcache
+" https://github.com/Shougo/neocomplcache.vim
 
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
@@ -146,4 +149,29 @@ let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 " https://github.com/c9s/perlomni.vim
 let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-auto-save
 
+let g:auto_save = 1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Ruby
+
+au FileType ruby :set nowrap tabstop=2 tw=0 sw=2 expandtab
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-coffee-script
+
+au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
+autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" QFixHowm
+
+set runtimepath+=~/.vim/qfixapp
+let QFixHowm_Key = 'g'
+let howm_dir             = '~/Dropbox/Private/howm-vim'
+let howm_filename        = '%Y/%m/%Y-%m-%d-%H%M%S.txt'
+let howm_fileencoding    = 'utf-8'
+let QFixHowm_FileType    = 'org'
+let QFixHowm_Title = '*'
