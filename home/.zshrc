@@ -159,6 +159,10 @@ case ${OSTYPE} in
 esac
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+## OPAM
+
+. /Users/kambara/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
 ## Linux Specific Settings
 case ${OSTYPE} in
     linux*)
