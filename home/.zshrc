@@ -152,8 +152,18 @@ keychain ~/.ssh/id_dsa
 source ~/.keychain/`hostname`-sh
 
 ## rbenv
+case ${OSTYPE} in
+    linux*)
+        export PATH=$HOME/.rbenv/bin:$PATH
+        ;;
+esac
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+## OPAM
+
+. /Users/kambara/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+## Linux Specific Settings
 case ${OSTYPE} in
     linux*)
         ## AdobeReader9 Japanese Font Bug
