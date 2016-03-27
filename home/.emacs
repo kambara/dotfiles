@@ -220,7 +220,7 @@
 ;; $ make install DIR=$HOME/.emacs.d/
 ;;--------------------
 
-(add-to-list 'load-path "~/.emacs.d")
+;(add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/auto-complete")
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/auto-complete/ac-dict")
@@ -337,10 +337,10 @@
 ;; (auto-install-from-emacswiki "sr-speedbar.el")
 ;;--------------------
 
-(require 'sr-speedbar)
-(setq sr-speedbar-right-side nil)
-(global-set-key (kbd "<f6>") 'sr-speedbar-toggle)
-(global-set-key (kbd "<f4>") 'sr-speedbar-select-window)
+;(require 'sr-speedbar)
+;(setq sr-speedbar-right-side nil)
+;(global-set-key (kbd "<f6>") 'sr-speedbar-toggle)
+;(global-set-key (kbd "<f4>") 'sr-speedbar-select-window)
 
 ;;--------------------
 ;; Easy Buffer Switch
