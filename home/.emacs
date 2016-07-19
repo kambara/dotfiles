@@ -461,13 +461,13 @@
 ;(setq howm-view-title-regexp-grep "^[0-9-]+  .+$")
 
 (add-to-list 'auto-mode-alist '("\\.howm$" . org-mode))
-(add-to-list 'auto-mode-alist '("Dropbox/Private/howm/.+\\.txt$" . org-mode))
+(add-to-list 'auto-mode-alist '("Dropbox/Private/Howm/.+\\.txt$" . org-mode))
 
 (setq howm-menu-lang 'ja)
 (global-set-key "\C-c,," 'howm-menu)
 (autoload 'howm-menu "howm-mode" "Hitori Otegaru Wiki Modoki" t)
 (setq howm-template (concat howm-view-title-header " %title%cursor\n\n"))
-(setq howm-directory "~/Dropbox/Private/howm")
+(setq howm-directory "~/Dropbox/Private/Howm")
 
 ;; UTF-8
 (setq howm-process-coding-system '(utf-8-unix . utf-8-unix))
@@ -497,12 +497,11 @@
 ;; (auto-install-from-url "http://jblevins.org/projects/deft/deft.el")
 ;;--------------------
 
-(require 'deft)
-(setq deft-extension "md")
-(setq deft-text-mode 'markdown-mode)
-(setq deft-directory "~/Dropbox/Private/deft")
-(global-set-key [f8] 'deft)
-
+;; (require 'deft)
+;; (setq deft-extension "md")
+;; (setq deft-text-mode 'markdown-mode)
+;; (setq deft-directory "~/Dropbox/Private/deft")
+;; (global-set-key [f8] 'deft)
 
 ;;--------------------
 ;; XML mode (SGML, HTML, XML)

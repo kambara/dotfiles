@@ -67,8 +67,6 @@ alias -g G='| grep'
 alias w3m='w3m -no-mouse'
 alias rgrep="grep -r --exclude='*.svn-*' --exclude='entries'"
 alias bukko='wget --continue --recursive --convert-links --no-parent --no-host-directories --force-directories --wait 1 -e robots=off'
-alias android-connect='mtpfs -o allow_other /media/104SH'
-alias android-disconnect='fusermount -u /media/104SH'
 
 case ${OSTYPE} in
     darwin*)
@@ -130,8 +128,10 @@ PATH=$PATH:$APPS/android-sdk-linux/tools
 PATH=$PATH:$APPS/android-sdk-linux/platform-tools
 
 ANDROID_SDK=/Applications/adt-bundle-mac-x86_64/sdk
-PATH=$PATH:$ANDROID_SDK/tools
-PATH=$PATH:$ANDROID_SDK/platform-tools
+#ANDROID_SDK=/Applications/android-sdk-macosx
+PATH=$ANDROID_SDK/tools:$PATH
+PATH=$ANDROID_SDK/platform-tools:$PATH
+export ANDROID_HOME=$ANDROID_SDK
 
 export PATH
 
