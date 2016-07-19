@@ -188,7 +188,7 @@
 ;; (auto-install-from-emacswiki "color-moccur.el")
 ;;--------------------
 
-(require 'color-moccur)
+;(require 'color-moccur)
 
 ;;--------------------
 ;; moccur-edit

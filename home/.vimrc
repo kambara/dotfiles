@@ -47,7 +47,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'glidenote/memolist.vim'
-NeoBundle 'vim-scripts/vim-auto-save'
+" NeoBundle 'vim-scripts/vim-auto-save'
 
 call neobundle#end()
 
