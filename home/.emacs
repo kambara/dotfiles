@@ -454,14 +454,17 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/.emacs.d/lisp/howm/")
-(add-hook 'org-mode-hook 'howm-mode) ;; org-modeで開く
-(setq howm-view-title-header "*") ;; howm のロードより前に書く
+;(add-hook 'org-mode-hook 'howm-mode) ;; org-modeで開く
+
+;; 見出し
+(setq howm-view-title-header "#") ;; howm のロードより前に書く
 ;(setq howm-view-title-regexp "^\t\\* .+$") ;; Changelogメモ見出し用
 ;(setq howm-view-title-regexp-grep "^\t\\* .+$") ;; Changelogメモ検索用
 ;(setq howm-view-title-regexp-grep "^[0-9-]+  .+$")
 
 (add-to-list 'auto-mode-alist '("\\.howm$" . org-mode))
 (add-to-list 'auto-mode-alist '("Dropbox/Private/Howm/.+\\.txt$" . org-mode))
+(add-to-list 'auto-mode-alist '("Dropbox/Private/Howm/.+\\.md$" . markdown-mode))
 
 (setq howm-menu-lang 'ja)
 (global-set-key "\C-c,," 'howm-menu)
