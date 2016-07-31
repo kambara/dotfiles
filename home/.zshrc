@@ -163,6 +163,10 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 . /Users/kambara/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
+## OpenNI2
+export OPENNI2_INCLUDE=/usr/local/include/ni2
+export OPENNI2_REDIST=/usr/local/lib/ni2
+
 ## Linux Specific Settings
 case ${OSTYPE} in
     linux*)
@@ -176,3 +180,9 @@ case ${OSTYPE} in
         fi
         ;;
 esac
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/kambara/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/kambara/google-cloud-sdk/completion.zsh.inc'

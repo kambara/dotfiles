@@ -16,7 +16,6 @@
     auto-install
     auto-save-buffers-enhanced
     coffee-mode
-    color-moccur
     color-theme
     deft
     dirtree
