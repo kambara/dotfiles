@@ -86,11 +86,6 @@
 ;; Avoid recursive loading
 (require 'tramp)
 
-;; Hide "local varibales list" alert
-(custom-set-variables
- '(safe-local-variable-values (quote ((clmemo-mode . t))))
- '(simplenote-notes-mode (quote markdown-mode)))
-
 ;; Increment Number 
 ;; http://www.emacswiki.org/emacs/IncrementNumber
 ;; Assign +1 to C-c a, -1 to C-c x
@@ -503,19 +498,47 @@
 (require 'simplenote2)
 (setq simplenote2-email "kambara@sappari.org")
 (setq simplenote2-password "snhchzrqsi")
+(setq simplenote2-markdown-notes-mode 'markdown-mode)
 (simplenote2-setup)
 
+;; Markdown
 (add-hook 'simplenote2-create-note-hook
       (lambda ()
         (simplenote2-set-markdown)))
 
+;; Key
 (add-hook 'simplenote2-note-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c C-t") 'simplenote2-add-tag)
             (local-set-key (kbd "C-c C-c") 'simplenote2-push-buffer)
             (local-set-key (kbd "C-c C-d") 'simplenote2-pull-buffer)))
-
 (global-set-key [f7] 'simplenote2-browse)
+
+;; Search memos
+(defun simplenote2-grep ()
+  "Run grep from all notes"
+  (interactive)
+  (let ((dir "~/.simplenote2/notes")
+        (word (read-from-minibuffer "Simplenote Search: ")))
+    (moccur-grep-find dir (list word))))
+
+(global-set-key [f8] 'simplenote2-grep)
+
+(defun simplenote2-sync-after-save ()
+  "If there is the buffer on simplenote-directory, sync the buffer to simplenote."
+  (interactive)
+  (when (string-match simplenote2-directory default-directory)
+    (simplenote2-push-buffer)
+    ;(simplenote2-sync-notes)
+    ;; only when create new note.
+    ;(let (simplenote-new-note-dir)
+    ;  (setq simplenote-new-note-dir (concat (file-name-as-directory simplenote2-directory) "new"))
+    ;  (when (string-match simplenote-new-note-dir default-directory)
+    ;    (kill-buffer (get-buffer (current-buffer)))
+    ;    (simplenote2-browse)))
+    ))
+
+(add-hook 'after-save-hook 'simplenote2-sync-after-save)
 
 ;;--------------------
 ;; Deft
@@ -523,17 +546,17 @@
 ;; (auto-install-from-url "http://jblevins.org/projects/deft/deft.el")
 ;;--------------------
 
-(require 'deft)
-(setq deft-default-extension "md")
-(setq deft-extensions '("md" "txt"))
-(setq deft-directory "~/Dropbox/Private/deft")
-(setq deft-text-mode 'markdown-mode)
-(setq deft-use-filename-as-title nil)
-(setq deft-use-filter-string-for-filename t)
-(setq deft-file-naming-rules '((noslash . "-")
-                               (nospace . "-")
-                               (case-fn . downcase)))
-(global-set-key [f8] 'deft)
+;; (require 'deft)
+;; (setq deft-default-extension "md")
+;; (setq deft-extensions '("md" "txt"))
+;; (setq deft-directory "~/Dropbox/Private/deft")
+;; (setq deft-text-mode 'markdown-mode)
+;; (setq deft-use-filename-as-title nil)
+;; (setq deft-use-filter-string-for-filename t)
+;; (setq deft-file-naming-rules '((noslash . "-")
+;;                                (nospace . "-")
+;;                                (case-fn . downcase)))
+;; (global-set-key [f8] 'deft)
 
 ;;--------------------
 ;; XML mode (SGML, HTML, XML)
