@@ -471,6 +471,7 @@
 (autoload 'howm-menu "howm-mode" "Hitori Otegaru Wiki Modoki" t)
 (setq howm-template (concat howm-view-title-header " %title%cursor\n\n"))
 (setq howm-directory "~/Dropbox/Private/Howm")
+(setq howm-file-name-format "%Y/%m/%Y-%m-%d-%H%M%S.md")
 
 ;; UTF-8
 (setq howm-process-coding-system '(utf-8-unix . utf-8-unix))
@@ -513,6 +514,8 @@
             (local-set-key (kbd "C-c C-t") 'simplenote2-add-tag)
             (local-set-key (kbd "C-c C-c") 'simplenote2-push-buffer)
             (local-set-key (kbd "C-c C-d") 'simplenote2-pull-buffer)))
+
+(global-set-key [f7] 'simplenote2-browse)
 
 ;;--------------------
 ;; Deft
@@ -735,7 +738,6 @@
 (define-key global-map "\C-x\C-h" 'help-command)
 (define-key global-map "\M-g" 'goto-line)
 (define-key global-map "\M-o" 'moccur-grep)
-;(global-set-key [f8] 'other-frame)
 (global-set-key [f9] 'other-window)
 
 ;;====================
