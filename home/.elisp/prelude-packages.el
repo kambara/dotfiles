@@ -38,6 +38,7 @@
     color-theme-tango 
     web-mode
     yaml-mode
+    simplenote2
     )
   "A list of packages to ensure are installed at launch.")
 

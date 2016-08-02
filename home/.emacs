@@ -495,16 +495,42 @@
       (kill-buffer (current-buffer)))))
 
 ;;--------------------
+;; simplenote2
+;; https://github.com/alpha22jp/simplenote2.el
+;;--------------------
+
+(require 'simplenote2)
+(setq simplenote2-email "kambara@sappari.org")
+(setq simplenote2-password "snhchzrqsi")
+(simplenote2-setup)
+
+(add-hook 'simplenote2-create-note-hook
+      (lambda ()
+        (simplenote2-set-markdown)))
+
+(add-hook 'simplenote2-note-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c C-t") 'simplenote2-add-tag)
+            (local-set-key (kbd "C-c C-c") 'simplenote2-push-buffer)
+            (local-set-key (kbd "C-c C-d") 'simplenote2-pull-buffer)))
+
+;;--------------------
 ;; Deft
 ;; http://jblevins.org/projects/deft/
 ;; (auto-install-from-url "http://jblevins.org/projects/deft/deft.el")
 ;;--------------------
 
-;; (require 'deft)
-;; (setq deft-extension "md")
-;; (setq deft-text-mode 'markdown-mode)
-;; (setq deft-directory "~/Dropbox/Private/deft")
-;; (global-set-key [f8] 'deft)
+(require 'deft)
+(setq deft-default-extension "md")
+(setq deft-extensions '("md" "txt"))
+(setq deft-directory "~/Dropbox/Private/deft")
+(setq deft-text-mode 'markdown-mode)
+(setq deft-use-filename-as-title nil)
+(setq deft-use-filter-string-for-filename t)
+(setq deft-file-naming-rules '((noslash . "-")
+                               (nospace . "-")
+                               (case-fn . downcase)))
+(global-set-key [f8] 'deft)
 
 ;;--------------------
 ;; XML mode (SGML, HTML, XML)
