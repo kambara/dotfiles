@@ -512,7 +512,14 @@
             (local-set-key (kbd "C-c C-t") 'simplenote2-add-tag)
             (local-set-key (kbd "C-c C-c") 'simplenote2-push-buffer)
             (local-set-key (kbd "C-c C-d") 'simplenote2-pull-buffer)))
-(global-set-key [f7] 'simplenote2-browse)
+
+(defun simplenote2-browse-and-sync ()
+  (interactive)
+  (simplenote2-browse)
+  (simplenote2-sync-notes))
+
+(global-set-key [f7] 'simplenote2-browse-and-sync)
+;(global-set-key [f7] 'simplenote2-browse)
 
 ;; Search memos
 (defun simplenote2-grep ()
