@@ -521,24 +521,7 @@
   (let ((dir "~/.simplenote2/notes")
         (word (read-from-minibuffer "Simplenote Search: ")))
     (moccur-grep-find dir (list word))))
-
 (global-set-key [f8] 'simplenote2-grep)
-
-(defun simplenote2-sync-after-save ()
-  "If there is the buffer on simplenote-directory, sync the buffer to simplenote."
-  (interactive)
-  (when (string-match simplenote2-directory default-directory)
-    (simplenote2-push-buffer)
-    ;(simplenote2-sync-notes)
-    ;; only when create new note.
-    ;(let (simplenote-new-note-dir)
-    ;  (setq simplenote-new-note-dir (concat (file-name-as-directory simplenote2-directory) "new"))
-    ;  (when (string-match simplenote-new-note-dir default-directory)
-    ;    (kill-buffer (get-buffer (current-buffer)))
-    ;    (simplenote2-browse)))
-    ))
-
-(add-hook 'after-save-hook 'simplenote2-sync-after-save)
 
 ;;--------------------
 ;; Deft
