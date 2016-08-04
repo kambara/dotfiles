@@ -498,6 +498,7 @@
 (require 'simplenote2)
 (setq simplenote2-email "kambara@sappari.org")
 (setq simplenote2-password "snhchzrqsi")
+(setq simplenote2-directory "~/Dropbox/Private/Simplenote")
 (setq simplenote2-markdown-notes-mode 'markdown-mode)
 (simplenote2-setup)
 
@@ -525,7 +526,7 @@
 (defun simplenote2-grep ()
   "Run grep from all notes"
   (interactive)
-  (let ((dir "~/.simplenote2/notes")
+  (let ((dir "~/Dropbox/Private/Simplenote/notes")
         (word (read-from-minibuffer "Simplenote Search: ")))
     (moccur-grep-find dir (list word))))
 (global-set-key [f8] 'simplenote2-grep)
