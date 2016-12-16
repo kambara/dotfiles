@@ -27,6 +27,7 @@
     js2-mode
     less-css-mode
     markdown-mode
+    memolist
     php-mode
     popup
     pos-tip

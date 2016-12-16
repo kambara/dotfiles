@@ -498,7 +498,7 @@
 (require 'simplenote2)
 (setq simplenote2-email "kambara@sappari.org")
 (setq simplenote2-password "snhchzrqsi")
-(setq simplenote2-directory "~/Dropbox/Private/simplenote")
+;(setq simplenote2-directory "~/Dropbox/Private/simplenote")
 (setq simplenote2-markdown-notes-mode 'markdown-mode)
 (simplenote2-setup)
 
@@ -532,22 +532,11 @@
 (global-set-key [f8] 'simplenote2-grep)
 
 ;;--------------------
-;; Deft
-;; http://jblevins.org/projects/deft/
-;; (auto-install-from-url "http://jblevins.org/projects/deft/deft.el")
+;; memolist.el
+;; https://github.com/mikanfactory/memolist.el
 ;;--------------------
 
-;; (require 'deft)
-;; (setq deft-default-extension "md")
-;; (setq deft-extensions '("md" "txt"))
-;; (setq deft-directory "~/Dropbox/Private/deft")
-;; (setq deft-text-mode 'markdown-mode)
-;; (setq deft-use-filename-as-title nil)
-;; (setq deft-use-filter-string-for-filename t)
-;; (setq deft-file-naming-rules '((noslash . "-")
-;;                                (nospace . "-")
-;;                                (case-fn . downcase)))
-;; (global-set-key [f8] 'deft)
+(custom-set-variables '(memolist-memo-directory "~/Dropbox/Private/memolist"))
 
 ;;--------------------
 ;; XML mode (SGML, HTML, XML)
