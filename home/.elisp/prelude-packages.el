@@ -16,7 +16,6 @@
     auto-install
     auto-save-buffers-enhanced
     coffee-mode
-    color-moccur
     color-theme
     deft
     dirtree
@@ -28,6 +27,7 @@
     js2-mode
     less-css-mode
     markdown-mode
+    memolist
     php-mode
     popup
     pos-tip
@@ -39,6 +39,7 @@
     color-theme-tango 
     web-mode
     yaml-mode
+    simplenote
     )
   "A list of packages to ensure are installed at launch.")
 

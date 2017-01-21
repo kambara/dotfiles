@@ -21,4 +21,3 @@ set ignorecase
 
 set guifont=Menlo:h14
 colorscheme evening
-

@@ -86,11 +86,6 @@
 ;; Avoid recursive loading
 (require 'tramp)
 
-;; Hide "local varibales list" alert
-(custom-set-variables
- '(safe-local-variable-values (quote ((clmemo-mode . t))))
- '(simplenote-notes-mode (quote markdown-mode)))
-
 ;; Increment Number 
 ;; http://www.emacswiki.org/emacs/IncrementNumber
 ;; Assign +1 to C-c a, -1 to C-c x
@@ -188,7 +183,7 @@
 ;; (auto-install-from-emacswiki "color-moccur.el")
 ;;--------------------
 
-(require 'color-moccur)
+;(require 'color-moccur)
 
 ;;--------------------
 ;; moccur-edit
@@ -454,20 +449,24 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/.emacs.d/lisp/howm/")
-(add-hook 'org-mode-hook 'howm-mode) ;; org-modeで開く
-(setq howm-view-title-header "*") ;; howm のロードより前に書く
+;(add-hook 'org-mode-hook 'howm-mode) ;; org-modeで開く
+
+;; 見出し
+(setq howm-view-title-header "#") ;; howm のロードより前に書く
 ;(setq howm-view-title-regexp "^\t\\* .+$") ;; Changelogメモ見出し用
 ;(setq howm-view-title-regexp-grep "^\t\\* .+$") ;; Changelogメモ検索用
 ;(setq howm-view-title-regexp-grep "^[0-9-]+  .+$")
 
 (add-to-list 'auto-mode-alist '("\\.howm$" . org-mode))
 (add-to-list 'auto-mode-alist '("Dropbox/Private/Howm/.+\\.txt$" . org-mode))
+(add-to-list 'auto-mode-alist '("Dropbox/Private/Howm/.+\\.md$" . markdown-mode))
 
 (setq howm-menu-lang 'ja)
 (global-set-key "\C-c,," 'howm-menu)
 (autoload 'howm-menu "howm-mode" "Hitori Otegaru Wiki Modoki" t)
 (setq howm-template (concat howm-view-title-header " %title%cursor\n\n"))
 (setq howm-directory "~/Dropbox/Private/Howm")
+(setq howm-file-name-format "%Y/%m/%Y-%m-%d-%H%M%S.md")
 
 ;; UTF-8
 (setq howm-process-coding-system '(utf-8-unix . utf-8-unix))
@@ -491,17 +490,41 @@
        (buffer-file-name (current-buffer)))
       (kill-buffer (current-buffer)))))
 
+;; Markdown
+;; (add-hook 'simplenote2-create-note-hook
+;;       (lambda ()
+;;         (simplenote2-set-markdown)))
+
+;; Key
+;; (add-hook 'simplenote2-note-mode-hook
+;;           (lambda ()
+;;             (local-set-key (kbd "C-c C-t") 'simplenote2-add-tag)
+;;             (local-set-key (kbd "C-c C-c") 'simplenote2-push-buffer)
+;;             (local-set-key (kbd "C-c C-d") 'simplenote2-pull-buffer)))
+
+;; (defun simplenote2-browse-and-sync ()
+;;   (interactive)
+;;   (simplenote2-browse)
+;;   (simplenote2-sync-notes))
+
+;(global-set-key [f7] 'simplenote2-browse-and-sync)
+;(global-set-key [f7] 'simplenote2-browse)
+
+;; Search memos
+;; (defun simplenote2-grep ()
+;;   "Run grep from all notes"
+;;   (interactive)
+;;   (let ((dir "~/Dropbox/Private/simplenote/notes")
+;;         (word (read-from-minibuffer "Simplenote Search: ")))
+;;     (moccur-grep-find dir (list word))))
+;; (global-set-key [f8] 'simplenote2-grep)
+
 ;;--------------------
-;; Deft
-;; http://jblevins.org/projects/deft/
-;; (auto-install-from-url "http://jblevins.org/projects/deft/deft.el")
+;; memolist.el
+;; https://github.com/mikanfactory/memolist.el
 ;;--------------------
 
-;; (require 'deft)
-;; (setq deft-extension "md")
-;; (setq deft-text-mode 'markdown-mode)
-;; (setq deft-directory "~/Dropbox/Private/deft")
-;; (global-set-key [f8] 'deft)
+(custom-set-variables '(memolist-memo-directory "~/Dropbox/Private/memolist"))
 
 ;;--------------------
 ;; XML mode (SGML, HTML, XML)
@@ -706,7 +729,7 @@
 (define-key global-map "\C-x\C-h" 'help-command)
 (define-key global-map "\M-g" 'goto-line)
 (define-key global-map "\M-o" 'moccur-grep)
-;(global-set-key [f8] 'other-frame)
+(define-key global-map [?¥] [?\\])
 (global-set-key [f9] 'other-window)
 
 ;;====================
