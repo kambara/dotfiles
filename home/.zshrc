@@ -182,7 +182,11 @@ case ${OSTYPE} in
 esac
 
 # The next line updates PATH for the Google Cloud SDK.
-source '/Users/kambara/google-cloud-sdk/path.zsh.inc'
+if [ -f /Users/kambara/google-cloud-sdk/path.zsh.inc ]; then
+  source '/Users/kambara/google-cloud-sdk/path.zsh.inc'
+fi
 
 # The next line enables shell command completion for gcloud.
-source '/Users/kambara/google-cloud-sdk/completion.zsh.inc'
+if [ -f /Users/kambara/google-cloud-sdk/completion.zsh.inc ]; then
+  source '/Users/kambara/google-cloud-sdk/completion.zsh.inc'
+fi

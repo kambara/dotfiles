@@ -495,41 +495,41 @@
 ;; https://github.com/alpha22jp/simplenote2.el
 ;;--------------------
 
-(require 'simplenote2)
-(setq simplenote2-email "kambara@sappari.org")
-(setq simplenote2-password "snhchzrqsi")
-(setq simplenote2-directory "~/Dropbox/Private/simplenote")
-(setq simplenote2-markdown-notes-mode 'markdown-mode)
-(simplenote2-setup)
+(require 'simplenote)
+(setq simplenote-email "kambara@sappari.org")
+(setq simplenote-password "snhchzrqsi")
+;(setq simplenote2-directory "~/Dropbox/Private/simplenote")
+;(setq simplenote2-markdown-notes-mode 'markdown-mode)
+(simplenote-setup)
 
 ;; Markdown
-(add-hook 'simplenote2-create-note-hook
-      (lambda ()
-        (simplenote2-set-markdown)))
+;; (add-hook 'simplenote2-create-note-hook
+;;       (lambda ()
+;;         (simplenote2-set-markdown)))
 
 ;; Key
-(add-hook 'simplenote2-note-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c C-t") 'simplenote2-add-tag)
-            (local-set-key (kbd "C-c C-c") 'simplenote2-push-buffer)
-            (local-set-key (kbd "C-c C-d") 'simplenote2-pull-buffer)))
+;; (add-hook 'simplenote2-note-mode-hook
+;;           (lambda ()
+;;             (local-set-key (kbd "C-c C-t") 'simplenote2-add-tag)
+;;             (local-set-key (kbd "C-c C-c") 'simplenote2-push-buffer)
+;;             (local-set-key (kbd "C-c C-d") 'simplenote2-pull-buffer)))
 
-(defun simplenote2-browse-and-sync ()
-  (interactive)
-  (simplenote2-browse)
-  (simplenote2-sync-notes))
+;; (defun simplenote2-browse-and-sync ()
+;;   (interactive)
+;;   (simplenote2-browse)
+;;   (simplenote2-sync-notes))
 
-(global-set-key [f7] 'simplenote2-browse-and-sync)
+;(global-set-key [f7] 'simplenote2-browse-and-sync)
 ;(global-set-key [f7] 'simplenote2-browse)
 
 ;; Search memos
-(defun simplenote2-grep ()
-  "Run grep from all notes"
-  (interactive)
-  (let ((dir "~/Dropbox/Private/simplenote/notes")
-        (word (read-from-minibuffer "Simplenote Search: ")))
-    (moccur-grep-find dir (list word))))
-(global-set-key [f8] 'simplenote2-grep)
+;; (defun simplenote2-grep ()
+;;   "Run grep from all notes"
+;;   (interactive)
+;;   (let ((dir "~/Dropbox/Private/simplenote/notes")
+;;         (word (read-from-minibuffer "Simplenote Search: ")))
+;;     (moccur-grep-find dir (list word))))
+;; (global-set-key [f8] 'simplenote2-grep)
 
 ;;--------------------
 ;; Deft
@@ -752,6 +752,7 @@
 (define-key global-map "\C-x\C-h" 'help-command)
 (define-key global-map "\M-g" 'goto-line)
 (define-key global-map "\M-o" 'moccur-grep)
+(define-key global-map [?¥] [?\\])
 (global-set-key [f9] 'other-window)
 
 ;;====================
