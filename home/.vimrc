@@ -8,7 +8,7 @@ filetype indent on
 filetype plugin on
 
 set incsearch
-set ts=4 sw=4 expandtab
+set ts=2 sw=2 expandtab
 set showmatch
 set autoindent
 set smartindent
