@@ -11,15 +11,35 @@ fi
 # Zsh Settings
 ######################################
 
-## Prompt
-setopt prompt_subst
-setopt transient_rprompt
-PROMPT=$'%{$fg[black]$bg[green]%}%n@%m%{${reset_color}%} %(!.#.$) '
-RPROMPT='[%~]'
-
 ## Coloring
 autoload -U colors
 colors
+
+## Git branch
+autoload -Uz vcs_info
+setopt prompt_subst
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr " !!"
+zstyle ':vcs_info:git:*' unstagedstr " M"
+zstyle ':vcs_info:*' formats " %b%c%u%f "
+zstyle ':vcs_info:*' actionformats ' %b|%a '
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
++vi-git-untracked(){
+    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+        git status --porcelain | grep '??' &> /dev/null ; then
+        hook_com[staged]+=" ??"
+    fi
+}
+precmd () { vcs_info }
+#RPROMPT='${vcs_info_msg_0_}'$RPROMPT
+
+## Prompt
+setopt prompt_subst
+setopt transient_rprompt
+#PROMPT='%{$fg[white]$bg[blue]%} %n@%m %{$fg[green]$bg[white]%}${vcs_info_msg_0_}%{$fg[black]$bg[blue]%} %~ %{$reset_color%}
+PROMPT='%{$fg[black]$bg[blue]%} %n@%m %{$fg[black]$bg[cyan]%}${vcs_info_msg_0_}%{$fg[black]$bg[white]%} %~ %{$reset_color%}
+%(!.#.$) '
+#RPROMPT='[%~]'
 
 ## Auto Completion
 autoload -U compinit
@@ -28,7 +48,7 @@ compinit
 ## Allow tab completion in the middle of a word
 setopt COMPLETE_IN_WORD
 
-## completion
+## Completion
 zstyle ':completion:*' verbose yes
 zstyle ':completion:*:default' menu select=1
 
@@ -113,27 +133,14 @@ function rm() {
 ## PATH
 ######################################
 
-PATH=/sbin:$PATH
-PATH=/usr/local/bin:$PATH
-PATH=/usr/local/sbin:$PATH
+export PATH=/sbin:$PATH
+export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/sbin:$PATH
 
-## ~/work
-PATH=$PATH:~/work/var/chalow
-PATH=$PATH:~/work/var/bin
-
-APPS=~/work/var/apps
-PATH=$PATH:$APPS/appengine-java-sdk/bin
-PATH=$PATH:$APPS/google_appengine
-PATH=$PATH:$APPS/android-sdk-linux/tools
-PATH=$PATH:$APPS/android-sdk-linux/platform-tools
-
-ANDROID_SDK=/Applications/adt-bundle-mac-x86_64/sdk
-#ANDROID_SDK=/Applications/android-sdk-macosx
-PATH=$ANDROID_SDK/tools:$PATH
-PATH=$ANDROID_SDK/platform-tools:$PATH
+ANDROID_SDK=/Applications/android-sdk-macosx
+export PATH=$ANDROID_SDK/tools:$PATH
+export PATH=$ANDROID_SDK/platform-tools:$PATH
 export ANDROID_HOME=$ANDROID_SDK
-
-export PATH
 
 ######################################
 # Application Settings
@@ -159,30 +166,10 @@ case ${OSTYPE} in
 esac
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
-## OPAM
-
-. /Users/kambara/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-
-## OpenNI2
-export OPENNI2_INCLUDE=/usr/local/include/ni2
-export OPENNI2_REDIST=/usr/local/lib/ni2
-
-## Linux Specific Settings
-case ${OSTYPE} in
-    linux*)
-        ## AdobeReader9 Japanese Font Bug
-        ## https://forums.ubuntulinux.jp/viewtopic.php?id=5509&p=1
-        export ACRO_DISABLE_FONT_CONFIG=1
-
-        ## Xmodmap
-        if [ -e ~/.Xmodmap ]; then
-            xmodmap ~/.Xmodmap
-        fi
-        ;;
-esac
-
-# The next line updates PATH for the Google Cloud SDK.
-source '/Users/kambara/google-cloud-sdk/path.zsh.inc'
-
-# The next line enables shell command completion for gcloud.
-source '/Users/kambara/google-cloud-sdk/completion.zsh.inc'
+## Google Cloud SDK
+if [ -f /Users/kambara/google-cloud-sdk/path.zsh.inc ]; then
+  source '/Users/kambara/google-cloud-sdk/path.zsh.inc'
+fi
+if [ -f /Users/kambara/google-cloud-sdk/completion.zsh.inc ]; then
+  source '/Users/kambara/google-cloud-sdk/completion.zsh.inc'
+fi
