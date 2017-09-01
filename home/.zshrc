@@ -2,10 +2,10 @@
 # TMUX
 ######################################
 
-if which tmux 2>&1 >/dev/null; then
-    #if not inside a tmux session, and if no session is started, start a new session
-    test -z "$TMUX" && (tmux attach || tmux new-session)
-fi
+# if which tmux 2>&1 >/dev/null; then
+#     #if not inside a tmux session, and if no session is started, start a new session
+#     test -z "$TMUX" && (tmux attach || tmux new-session)
+# fi
 
 ######################################
 # Zsh Settings
@@ -36,10 +36,8 @@ precmd () { vcs_info }
 ## Prompt
 setopt prompt_subst
 setopt transient_rprompt
-#PROMPT='%{$fg[white]$bg[blue]%} %n@%m %{$fg[green]$bg[white]%}${vcs_info_msg_0_}%{$fg[black]$bg[blue]%} %~ %{$reset_color%}
 PROMPT='%{$fg[black]$bg[blue]%} %n@%m %{$fg[black]$bg[cyan]%}${vcs_info_msg_0_}%{$fg[black]$bg[white]%} %~ %{$reset_color%}
 %(!.#.$) '
-#RPROMPT='[%~]'
 
 ## Auto Completion
 autoload -U compinit

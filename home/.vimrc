@@ -20,4 +20,5 @@ set ignorecase
 " MacVim
 
 set guifont=Menlo:h14
-colorscheme evening
+"colorscheme evening
+
