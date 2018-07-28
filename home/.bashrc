@@ -1,10 +1,14 @@
-## Export
+## Bash
 
-export BYOBU_PREFIX=/usr/local
+set completion-ignore-case on
+
+## Python
+
 export PYTHONPATH=/usr/local/lib/python2.7/site-packages/
 
-## Byobu launch
+## Byobu
 
+export BYOBU_PREFIX=/usr/local
 _byobu_sourced=1 . /usr/local/bin/byobu-launch 2>/dev/null || true
 
 ## Bash-it
