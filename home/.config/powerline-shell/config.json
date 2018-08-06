@@ -6,5 +6,6 @@
     "git", 
     "hg", 
     "jobs"
-  ]
+  ],
+  "mode": "flat"
 }
