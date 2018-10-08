@@ -1,7 +1,3 @@
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" General Settings
-
 syntax on
 filetype on
 filetype indent on
@@ -15,10 +11,3 @@ set smartindent
 set wildmenu
 set hlsearch
 set ignorecase
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" MacVim
-
-set guifont=Menlo:h14
-"colorscheme evening
-
